@@ -1,0 +1,267 @@
+{
+  "name": "bim-skills-italia",
+  "version": "0.1.0",
+  "description": "Skill e agenti AI per workflow BIM italiani — pronti per Claude Code",
+  "author": "VisionXt",
+  "license": "MIT",
+  "repository": "https://github.com/VisionXt-tech/bim-skills",
+  "families": [
+    {
+      "id": "pa-appointing",
+      "name": "PA / Committente",
+      "description": "Supporto alla stazione appaltante e appointing party",
+      "roles": ["BIM Manager (SA)", "RUP", "Commissione Giudicatrice"],
+      "skills": [
+        {
+          "id": "ci-drafting",
+          "name": "CI Drafting & Compliance",
+          "path": "skills/pa-appointing/ci-drafting/SKILL.md",
+          "description": "Redazione Capitolato Informativo conforme ad Allegato I.9",
+          "norms": ["D.Lgs. 36/2023", "Allegato I.9", "UNI 11337-5"],
+          "pattern": "document-centric"
+        },
+        {
+          "id": "ogi-evaluation",
+          "name": "oGI Evaluation",
+          "path": "skills/pa-appointing/ogi-evaluation/SKILL.md",
+          "description": "Valutazione Offerte di Gestione Informativa",
+          "norms": ["D.Lgs. 36/2023", "ISO 19650-2"],
+          "pattern": "appointment-centric"
+        },
+        {
+          "id": "pgi-consolidation",
+          "name": "pGI Consolidation",
+          "path": "skills/pa-appointing/pgi-consolidation/SKILL.md",
+          "description": "Trasformazione oGI in Piano di Gestione Informativa",
+          "norms": ["D.Lgs. 36/2023", "ISO 19650-2", "UNI 11337-5"],
+          "pattern": "document-centric"
+        }
+      ]
+    },
+    {
+      "id": "delivery-team",
+      "name": "Delivery Team",
+      "description": "Supporto al team di progetto e lead appointed party",
+      "roles": ["Lead Appointed Party", "BIM Manager", "BIM Coordinator"],
+      "skills": [
+        {
+          "id": "bim-execution",
+          "name": "BIM Execution Plan",
+          "path": "skills/delivery-team/bim-execution/SKILL.md",
+          "description": "Redazione BEP e piani di mobilizzazione",
+          "norms": ["ISO 19650-2", "UNI 11337-5"],
+          "pattern": "appointment-centric"
+        },
+        {
+          "id": "information-delivery-planning",
+          "name": "Information Delivery Planning",
+          "path": "skills/delivery-team/information-delivery-planning/SKILL.md",
+          "description": "Costruzione MIDP/TIDP e milestone informative",
+          "norms": ["ISO 19650-2", "UNI 11337-5"],
+          "pattern": "document-centric"
+        },
+        {
+          "id": "information-protocol",
+          "name": "Information Protocol",
+          "path": "skills/delivery-team/information-protocol/SKILL.md",
+          "description": "Protocollo informativo ISO 19650",
+          "norms": ["ISO 19650-1", "ISO 19650-2", "UNI 11337-5"],
+          "pattern": "appointment-centric"
+        }
+      ]
+    },
+    {
+      "id": "cde-acdat",
+      "name": "CDE / ACDat",
+      "description": "Configurazione e governance dell'ambiente di condivisione dati",
+      "roles": ["CDE Manager"],
+      "skills": [
+        {
+          "id": "cde-configuration",
+          "name": "CDE Configuration & Governance",
+          "path": "skills/cde-acdat/cde-configuration/SKILL.md",
+          "description": "Configurazione ambiente di condivisione dati",
+          "norms": ["ISO 19650-1", "UNI 11337-5", "Allegato I.9"],
+          "pattern": "cde-centric"
+        },
+        {
+          "id": "cde-workflow",
+          "name": "CDE Workflow & Status",
+          "path": "skills/cde-acdat/cde-workflow/SKILL.md",
+          "description": "Analisi flussi e stati dei container informativi",
+          "norms": ["ISO 19650-1", "ISO 19650-2"],
+          "pattern": "cde-centric"
+        },
+        {
+          "id": "cde-cybersecurity",
+          "name": "CDE Cybersecurity & Compliance",
+          "path": "skills/cde-acdat/cde-cybersecurity/SKILL.md",
+          "description": "Verifica sicurezza e compliance GDPR/ISO 27001",
+          "norms": ["ISO 27001", "GDPR", "ISO 19650-5"],
+          "pattern": "cde-centric"
+        }
+      ]
+    },
+    {
+      "id": "ifc-loin-quality",
+      "name": "Modelli IFC / LOIN",
+      "description": "Verifica tecnica modelli IFC e qualita informativa",
+      "roles": ["BIM Coordinator", "BIM Specialist", "CDE Manager"],
+      "skills": [
+        {
+          "id": "ifc-loin-validator",
+          "name": "IFC LOIN Validator",
+          "path": "skills/ifc-loin-quality/ifc-loin-validator/SKILL.md",
+          "description": "Validazione LOIN su modelli IFC (LoG/LoI/pset)",
+          "norms": ["UNI 11337-4", "UNI EN 17412-1", "ISO 16739-1"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "naming-spatial-structure",
+          "name": "Naming & Spatial Structure",
+          "path": "skills/ifc-loin-quality/naming-spatial-structure/SKILL.md",
+          "description": "Verifica nomenclatura e struttura spaziale IFC",
+          "norms": ["UNI 11337-5", "ISO 16739-1"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "clash-detection",
+          "name": "Clash Detection & Issue Management",
+          "path": "skills/ifc-loin-quality/clash-detection/SKILL.md",
+          "description": "Gestione clash e issue tracking",
+          "norms": ["ISO 19650-2", "BCF"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "normative-code-checking",
+          "name": "Normative Code Checking",
+          "path": "skills/ifc-loin-quality/normative-code-checking/SKILL.md",
+          "description": "Controlli parametrici normativi su modelli",
+          "norms": ["NTC 2018", "D.M. 03/08/2015"],
+          "pattern": "model-centric"
+        }
+      ]
+    },
+    {
+      "id": "4d-5d-costs",
+      "name": "4D/5D / Costi",
+      "description": "Dimensioni temporali ed economiche dei modelli BIM",
+      "roles": ["BIM Specialist", "Cost Planner"],
+      "skills": [
+        {
+          "id": "construction-sequencing",
+          "name": "4D Construction Sequencing",
+          "path": "skills/4d-5d-costs/construction-sequencing/SKILL.md",
+          "description": "Collegamento modelli IFC con cronoprogrammi (4D)",
+          "norms": ["D.Lgs. 36/2023", "ISO 19650-2"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "quantities-cost-linking",
+          "name": "5D Quantities & Cost Linking",
+          "path": "skills/4d-5d-costs/quantities-cost-linking/SKILL.md",
+          "description": "Estrazione quantitativi e viste 5D",
+          "norms": ["D.Lgs. 36/2023"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "materials-traceability",
+          "name": "Materials & Supply Chain Traceability",
+          "path": "skills/4d-5d-costs/materials-traceability/SKILL.md",
+          "description": "Tracciabilita materiali e sostenibilita",
+          "norms": ["D.M. 23/06/2022 (CAM)", "Reg. UE 305/2011"],
+          "pattern": "model-centric"
+        }
+      ]
+    },
+    {
+      "id": "asset-digital-twin",
+      "name": "Asset / Digital Twin",
+      "description": "Gestione patrimoniale e digital twin",
+      "roles": ["Facility Manager", "BIM Manager Asset"],
+      "skills": [
+        {
+          "id": "aim-construction",
+          "name": "AIM Construction & Update",
+          "path": "skills/asset-digital-twin/aim-construction/SKILL.md",
+          "description": "Costruzione Asset Information Model",
+          "norms": ["ISO 19650-3", "COBie"],
+          "pattern": "model-centric"
+        },
+        {
+          "id": "maintenance-cmms",
+          "name": "Maintenance Strategy & CMMS Integration",
+          "path": "skills/asset-digital-twin/maintenance-cmms/SKILL.md",
+          "description": "Integrazione AIM con sistemi CMMS/CAFM",
+          "norms": ["ISO 19650-3", "UNI 11257"],
+          "pattern": "cde-centric"
+        },
+        {
+          "id": "digital-twin-analytics",
+          "name": "Digital Twin Analytics",
+          "path": "skills/asset-digital-twin/digital-twin-analytics/SKILL.md",
+          "description": "Analytics IoT e performance energetiche",
+          "norms": ["ISO 19650-3", "UNI EN ISO 52000"],
+          "pattern": "model-centric"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "Strumenti e Piattaforme",
+      "description": "Skill per sviluppo e automazione con tool BIM",
+      "roles": ["BIM Specialist", "Developer"],
+      "skills": [
+        {
+          "id": "revit-api",
+          "name": "Revit API (C#)",
+          "path": "skills/tools/revit-api/SKILL.md",
+          "description": "Sviluppo add-in Revit: transazioni, filtri, famiglie, viste",
+          "platform": "Revit"
+        },
+        {
+          "id": "revit-dynamo",
+          "name": "Revit + Dynamo",
+          "path": "skills/tools/revit-dynamo/SKILL.md",
+          "description": "Script Dynamo: nodi Python, DesignScript, data flow",
+          "platform": "Dynamo"
+        },
+        {
+          "id": "revit-cpp-plugin",
+          "name": "Revit C++ Plugin",
+          "path": "skills/tools/revit-cpp-plugin/SKILL.md",
+          "description": "Plugin nativi C++ per operazioni performance-critical",
+          "platform": "Revit"
+        },
+        {
+          "id": "rhino",
+          "name": "Rhinoceros Scripting",
+          "path": "skills/tools/rhino/SKILL.md",
+          "description": "Scripting RhinoCommon, comandi, geometria NURBS",
+          "platform": "Rhinoceros"
+        },
+        {
+          "id": "rhino-inside-revit",
+          "name": "Rhino.Inside.Revit",
+          "path": "skills/tools/rhino-inside-revit/SKILL.md",
+          "description": "Interop Rhino-Revit: geometria complessa in contesto BIM",
+          "platform": "Rhino.Inside.Revit"
+        },
+        {
+          "id": "grasshopper",
+          "name": "Grasshopper Development",
+          "path": "skills/tools/grasshopper/SKILL.md",
+          "description": "Definizioni parametriche, componenti custom, data tree",
+          "platform": "Grasshopper"
+        },
+        {
+          "id": "pyrevit",
+          "name": "pyRevit Development",
+          "path": "skills/tools/pyrevit/SKILL.md",
+          "description": "Estensioni pyRevit: script, UI, hook, engine CPython 3",
+          "platform": "pyRevit"
+        }
+      ]
+    }
+  ]
+}
