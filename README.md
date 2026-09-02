@@ -1,10 +1,21 @@
+<div align="center">
+
+<img src="docs/assets/readme-banner.png" alt="BIM Skills Italia — VisionXt" width="100%">
+
+<br>
+
+[![License](https://img.shields.io/badge/license-MIT-87AFAE?style=flat-square&labelColor=000000)](LICENSE)
+[![Skills](https://img.shields.io/badge/skills-26-87AFAE?style=flat-square&labelColor=000000)](catalog.json)
+[![Agents](https://img.shields.io/badge/agents-6-87AFAE?style=flat-square&labelColor=000000)](agents/README.md)
+[![Built for](https://img.shields.io/badge/built%20for-Claude%20Code-87AFAE?style=flat-square&labelColor=000000)](https://claude.com/claude-code)
+
+</div>
+
 # BIM Skills Italia
 
-**Skill e agenti AI per workflow BIM italiani — pronti per Claude Code.**
+Una raccolta open-source di skill specializzate per professionisti BIM che operano nel contesto normativo italiano. Ci dedichiamo a **trasformare le procedure BIM italiane — D.Lgs. 36/2023, UNI 11337, ISO 19650 — in workflow deterministici che Claude Code puo eseguire**, cosi ogni skill diventa un collaboratore esperto di normative e strumenti, non un generatore di testo generico.
 
-Una raccolta open-source di skill specializzate per professionisti BIM che operano nel contesto normativo italiano (D.Lgs. 36/2023, UNI 11337, ISO 19650). Ogni skill trasforma l'AI assistant in un collaboratore esperto di procedure, normative e strumenti BIM.
-
-> Progetto di [VisionXt](https://visionxt.it) — aperto a contributi della community AEC italiana.
+> Progetto di [VisionXt](https://visionxt.tech) — aperto a contributi della community AEC italiana.
 
 ---
 
@@ -165,14 +176,9 @@ Cerchiamo contributi da: BIM Manager, BIM Coordinator, CDE Manager, sviluppatori
 
 ## Accesso e Registrazione
 
-Per accedere alla suite completa, aggiornamenti prioritari e supporto:
+**[Registrati su visionxt.tech/bim-skills](https://visionxt.tech/bim-skills)**
 
-**[Registrati su visionxt.it/bim-skills](https://visionxt.it/bim-skills)**
-
-La registrazione e gratuita e ti da accesso a:
-- Notifiche su nuove skill e aggiornamenti
-- Canale community per discussioni e supporto
-- Accesso anticipato a skill premium e integrazioni MCP avanzate
+La registrazione e gratuita e ti da accesso a: notifiche su nuove skill e aggiornamenti, canale community per discussioni e supporto, accesso anticipato a skill premium e integrazioni MCP avanzate.
 
 ---
 
