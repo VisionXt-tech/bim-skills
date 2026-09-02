@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Raleway:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap");
+
+  :root {
+    --black:#000000;
+    --ink-900:#0A0A0A;
+    --ink-800:#111213;
+    --ink-500:#33383B;
+    --ink-300:#7A8286;
+    --ink-200:#A8AFB2;
+    --white:#FFFFFF;
+    --mist-300:#87AFAE;
+    --white-a12:rgba(255,255,255,.12);
+    --white-a20:rgba(255,255,255,.20);
+    --white-a04:rgba(255,255,255,.04);
+
+    --font-display:"Space Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-body:"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1280px; height:640px; overflow:hidden; background:var(--black); }
+
+  .card {
+    width:1280px; height:640px;
+    position:relative;
+    background:var(--black);
+    color:var(--white);
+    font-family:var(--font-body);
+    overflow:hidden;
+  }
+
+  /* ArcField motif — concentric rings + interrupting blocks, top-left origin.
+     Faithful port of components/brand/ArcField.jsx for a static card. */
+  .arcs {
+    position:absolute;
+    top:-38%; left:-24%;
+    width:120%; aspect-ratio:1;
+    pointer-events:none;
+  }
+  .arcs span {
+    position:absolute;
+    border:1px solid var(--white-a20);
+    border-radius:50%;
+  }
+  .arcs span:nth-child(1){ inset:0%; }
+  .arcs span:nth-child(2){ inset:11%; }
+  .arcs span:nth-child(3){ inset:22%; }
+  .arcs span:nth-child(4){ inset:33%; }
+
+  .blocks {
+    position:absolute; left:0; right:0; top:0; height:80px;
+    overflow:hidden; pointer-events:none;
+  }
+  .blocks span { position:absolute; top:0; width:22px; background:var(--ink-500); opacity:.9; }
+  .blocks span:nth-child(1){ left:20%; height:80px; }
+  .blocks span:nth-child(2){ left:44%; height:50px; width:34px; }
+  .blocks span:nth-child(3){ left:69%; height:80px; width:16px; }
+
+  /* fine dot grain, over the black field only in the corner — subtle per brand spec */
+  .grain {
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.5) .5px, transparent .5px);
+    background-size:3px 3px;
+    opacity:.05;
+    pointer-events:none;
+  }
+
+  .content {
+    position:relative;
+    padding:64px 72px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  .wordmark {
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:-0.02em;
+  }
+
+  .eyebrow {
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .eyebrow .index {
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--mist-300);
+  }
+  .eyebrow .label {
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-200);
+    font-weight:500;
+  }
+  .eyebrow .rule {
+    flex:1;
+    height:1px;
+    background:var(--white-a12);
+    max-width:200px;
+  }
+
+  h1 {
+    margin-top:22px;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:64px;
+    line-height:.98;
+    letter-spacing:-0.032em;
+    max-width:16ch;
+  }
+  h1 em { font-style:italic; color:var(--mist-300); }
+
+  .subtitle {
+    margin-top:20px;
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink-200);
+    max-width:60ch;
+    font-weight:400;
+  }
+  .subtitle strong { color:var(--white); font-weight:600; }
+
+  .footer-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+  }
+
+  .tags {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .tag {
+    display:inline-flex;
+    align-items:center;
+    padding:9px 16px;
+    font-family:var(--font-body);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.01em;
+    color:var(--white);
+    box-shadow:inset 0 0 0 1px var(--white-a12);
+    white-space:nowrap;
+  }
+
+  .stat {
+    text-align:right;
+  }
+  .stat .value {
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:44px;
+    line-height:.9;
+    letter-spacing:-0.03em;
+    color:var(--white);
+  }
+  .stat .caption {
+    margin-top:6px;
+    font-size:13px;
+    letter-spacing:.02em;
+    color:var(--ink-200);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="arcs">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="blocks">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="grain"></div>
+
+    <div class="content">
+      <div class="wordmark">VisionXt</div>
+
+      <div>
+        <div class="eyebrow">
+          <span class="index">01</span>
+          <span class="label">Open Source &middot; Claude Code</span>
+          <span class="rule"></span>
+        </div>
+        <h1>BIM Skills <em>Italia</em></h1>
+        <div class="subtitle">
+          Skill e agenti AI per workflow BIM italiani &mdash;<br><strong>D.Lgs. 36/2023, UNI 11337, ISO 19650</strong>
+        </div>
+      </div>
+
+      <div class="footer-row">
+        <div class="tags">
+          <span class="tag">REVIT</span>
+          <span class="tag">IFC &middot; OPENBIM</span>
+          <span class="tag">PYREVIT</span>
+          <span class="tag">RHINO &middot; GRASSHOPPER</span>
+        </div>
+        <div class="stat">
+          <div class="value">26+6</div>
+          <div class="caption">skill &amp; agenti</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
