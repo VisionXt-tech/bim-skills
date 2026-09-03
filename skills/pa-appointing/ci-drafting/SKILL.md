@@ -1,176 +1,230 @@
-# CI Drafting & Compliance
+---
+name: ci-drafting
+description: >-
+  Redazione e verifica di conformita del Capitolato Informativo (CI) BIM conforme a D.Lgs. 36/2023 Allegato I.9,
+  D.Lgs. 209/2024 e UNI 11337-5. Usare per redigere capitolati informativi BIM, requisiti LOIN di gara, requisiti ACDat
+  e criteri premiali OEPV per appalti pubblici.
+---
 
-Assistente per la redazione del Capitolato Informativo (CI) conforme a D.Lgs. 36/2023, Allegato I.9 e UNI 11337-5.
+# BIM Capitolato Informativo (CI) — Drafting & Compliance
+
+Assistente specialistico per la redazione e la verifica di conformità del **Capitolato Informativo (CI)** conforme al Codice dei Contratti Pubblici (**D.Lgs. 36/2023** coordinato con il Decreto Correttivo **D.Lgs. 209/2024**), all'**Allegato I.9**, alla serie **UNI 11337**, alla serie **UNI EN ISO 19650** e allo standard **UNI EN 17412-1**.
+
+---
 
 ## Scope
 
-Questa skill supporta il BIM Manager della Stazione Appaltante nella:
-- Redazione del CI per gare di appalto pubblico
-- Verifica di conformita normativa del CI
-- Definizione dei LOIN (Level of Information Need) per fase progettuale
-- Strutturazione dei requisiti informativi (EIR) in formato italiano
-- Definizione di criteri premiali OEPV legati alla gestione informativa
+Questa skill guida il BIM Manager della Stazione Appaltante (e supporta il RUP) nelle seguenti attività:
+- **Verifica degli adempimenti preliminari** della Stazione Appaltante (Art. 2 Allegato I.9).
+- **Verifica delle condizioni di obbligatorietà** (soglia 2M € ex D.Lgs. 209/2024) e applicabilità.
+- **Redazione integrale del Capitolato Informativo** per servizi di architettura/ingegneria (PFTE, Progetto Esecutivo) e per appalti integrati / lavori.
+- **Definizione della matrice LOIN** (Level of Information Need) per disciplina e fase secondo UNI EN 17412-1.
+- **Definizione dei requisiti tecnici e di sicurezza dell'ACDat** (Ambiente di Condivisione Dati / CDE) secondo UNI 11337-5, ISO 19650 e GDPR.
+- **Strutturazione dei criteri premiali OEPV** (Offerta Economicamente Più Vantaggiosa) legati alla gestione informativa digitale ai sensi dell'Art. 12 dell'Allegato I.9 e in linea con le Linee Guida ANAC n. 2.
+- **Audit e check-list di conformità normativa** del CI prima della pubblicazione del bando di gara.
+
+---
 
 ## NON fa
 
-- Non sostituisce il parere legale sulla conformita contrattuale
-- Non redige documenti di gara diversi dal CI (disciplinare, bando)
-- Non definisce importi o soglie economiche
-- Non certifica la conformita — il professionista firma e si assume la responsabilita
+- Non sostituisce il parere legale sull'intero impianto contrattuale di gara (bando, disciplinare, schema di contratto).
+- Non definisce importi a base di gara o stime economiche del quadro economico (attività riservata a RUP ed estimatori).
+- Non rilascia attestazioni di certificazione formale (la responsabilità e la firma restano in capo al tecnico abilitato / RUP).
+- Non impone né vincola la gara all'uso di software commerciali proprietari.
+
+---
 
 ## Normativa di riferimento
 
-- **D.Lgs. 36/2023, art. 43** — Metodi e strumenti di gestione informativa digitale (rimanda all'Allegato I.9)
-- **Allegato I.9** ("Metodi e strumenti di gestione informativa digitale delle costruzioni", 13 articoli). Struttura verificata su fonti convergenti (codiceappalti.it, puntoappalti.it) — la numerazione esatta va comunque confrontata sul testo vigente in Gazzetta Ufficiale prima di citarla in un documento di gara:
-  - **Art. 1**: definizioni e ambito; l'uso dei metodi digitali e' parametro di valutazione per i requisiti premianti di qualificazione delle stazioni appaltanti
-  - **Art. 2**: adempimenti preliminari della stazione appaltante — piano di formazione del personale, acquisizione/manutenzione HW-SW, atto organizzativo con ruoli e responsabilita
-  - **Art. 2-bis**: esplicitazione dei requisiti informativi in base a obiettivi strategici e livelli di progettazione
-  - **Art. 3**: nomina di gestore dell'ACDat, gestore dei processi digitali, coordinatore dei flussi informativi
-  - **Art. 4**: ambiente di condivisione dei dati (ACDat) — caratteristiche, proprieta dei dati, interoperabilita con banche dati PA quando non ricorrono esigenze di riservatezza/sicurezza
-  - **Art. 5**: interoperabilita tramite formati aperti non proprietari
-  - **Art. 6**: gerarchia delle norme tecniche di riferimento (UNI EN/UNI EN ISO, UNI ISO, UNI)
-  - **Art. 7**: norma di riferimento principale serie UNI EN ISO 19650, riferimento ausiliario serie UNI 11337
-  - **Art. 8**: **Capitolato Informativo per servizi di architettura e ingegneria** — contenuti minimi: requisiti informativi strategici e livelli di fabbisogno, produzione/gestione/trasmissione/archiviazione dei contenuti, caratteristiche dell'ACDat (proprieta, accesso, sicurezza), specifiche di interoperabilita nel tempo
-  - **Art. 9**: CI per lavori con progetto esecutivo e appalto integrato — coerenza con il livello di progettazione, responsabilita dell'appaltatore
-  - **Art. 10**: regole di affidamento — oGI presentata dal concorrente, pGI redatto dall'aggiudicatario dopo il contratto, consegna tramite ACDat
-  - **Art. 11**: coordinamento/direzione/collaudo tramite metodi digitali; relazione specialistica di conformita al CI
-  - **Art. 12**: requisiti informativi utilizzabili come criteri premiali OEPV (vedi sezione dedicata sotto)
-  - **Art. 13**: commissione di monitoraggio presso il MIT
-- **UNI 11337-5** — Gestione digitale dei processi informativi: ruoli, regole e flussi di coordinamento/approvazione nell'ACDat; requisiti minimi dell'ambiente (accessibilita per permessi di ruolo, conservazione/aggiornabilita nel tempo, tracciabilita delle revisioni)
-- **UNI 11337-4** — Evoluzione e sviluppo informativo di modelli, elaborati e oggetti (LOD alfabetici A-G); in fase di aggiornamento per allinearsi al framework LOIN internazionale — non usare come unica fonte per la matrice dei livelli, integrare con UNI EN 17412-1
-- **UNI EN 17412-1** — Level of Information Need: framework a due passaggi — (1) prerequisiti *perche, quando, chi, cosa*; (2) definizione del fabbisogno informativo su tre componenti: informazione geometrica, informazione alfanumerica, documentazione. Sostituisce concettualmente il vecchio LOD anglosassone; in transizione verso ISO 7817-1
-- **UNI EN ISO 12006-2:2020** — Struttura per la classificazione delle informazioni delle costruzioni: definisce le tabelle di classificazione raccomandate, non un sistema chiuso
-- **ISO 19650-1/2** — EIR (Exchange Information Requirements), OIR, PIR, AIR: la ISO 19650-2 (punto 5.2) richiede che l'EIR contenga requisiti informativi, standard di consegna, metodi e procedure di produzione — il CI italiano e' l'equivalente funzionale dell'EIR, integrato con gli adempimenti specifici dell'Allegato I.9
+1. **D.Lgs. 36/2023 (Codice dei Contratti Pubblici)**:
+   - **Art. 43** (Metodi e strumenti di gestione informativa digitale delle costruzioni): definisce l'obbligo e rimanda all'Allegato I.9.
+   - **D.Lgs. 209/2024 (Decreto Correttivo, in vigore dal 31/12/2024)**:
+     - **Soglia di obbligatorietà a 2.000.000 €** (innalzata dalla precedente soglia di 1 milione): obbligo vigente dal **1° gennaio 2025** per nuove costruzioni e interventi su costruzioni esistenti.
+     - Esclusione per interventi di manutenzione ordinaria e straordinaria, a meno che non riguardino opere già gestite digitalmente.
+     - Per beni culturali sottoposti a tutela (D.Lgs. 42/2004, art. 10): l'obbligo scatta al raggiungimento della soglia europea ex art. 14, comma 1, lett. a).
+2. **Allegato I.9 D.Lgs. 36/2023**:
+   - **Art. 1**: Ambito e qualificazione delle stazioni appaltanti;
+   - **Art. 2**: Adempimenti preliminari SA: (a) Piano di formazione del personale; (b) Piano di acquisizione/manutenzione HW e SW; (c) Atto organizzativo interno che definisce ruoli e responsabilità;
+   - **Art. 3**: Nomina delle figure chiave della SA: Gestore dell'ACDat, Gestore dei processi digitali, Coordinatore dei flussi informativi;
+   - **Art. 4**: Caratteristiche dell'Ambiente di Condivisione Dati (ACDat);
+   - **Art. 5**: Obbligo di interoperabilità tramite formati aperti non proprietari (IFC - ISO 16739-1);
+   - **Art. 6-7**: Gerarchia norme tecniche: prevalenza delle norme europee/internazionali (UNI EN ISO 19650) con il supporto delle norme nazionali (UNI 11337);
+   - **Art. 8**: Contenuti minimi del Capitolato Informativo per servizi di architettura e ingegneria;
+   - **Art. 9**: Capitolato Informativo per appalto integrato e affidamento lavori;
+   - **Art. 10**: Offerta di Gestione Informativa (oGI in gara) e Piano di Gestione Informativa (pGI post-aggiudicazione);
+   - **Art. 11**: Direzione lavori e collaudo tramite metodi digitali; relazione specialistica finale di rispondenza al CI;
+   - **Art. 12**: Aree di premialità per la gestione informativa digitale nei criteri OEPV.
+3. **UNI 11337 (Gestione digitale dei processi informativi delle costruzioni)**:
+   - **Parte 1**: Modelli, elaborati e oggetti informativi;
+   - **Parte 4**: Evoluzione e sviluppo informativo (superamento del LOD alfabetico verso il LOIN);
+   - **Parte 5**: Flussi informativi, struttura dell'ACDat (Aree e Stati di lavorazione);
+   - **Parte 7**: Requisiti di conoscenza, abilità e competenza per le 4 figure: CDE Manager, BIM Manager, BIM Coordinator, BIM Specialist.
+4. **UNI/PdR 78:2020**: Prassi di riferimento per la certificazione accreditata delle 4 figure professionali UNI 11337-7.
+5. **UNI EN ISO 19650-1 e UNI EN ISO 19650-2**:
+   - Il CI italiano costituisce l'equivalente funzionale degli **EIR (Exchange Information Requirements)**;
+   - Recepimento dei principi di governance informativa, OIR, PIR, AIR e flussi CDE (WIP, Shared, Published, Archive).
+6. **UNI EN 17412-1:2021**: Level of Information Need (LOIN) — definizione geometrica, alfanumerica e documentale per scopo e milestone.
+7. **GDPR (Reg. UE 2016/679) & ISO 19650-5**: Protezione dei dati personali, sicurezza delle informazioni, audit log e cyber security dell'ACDat.
 
-## Workflow
+---
 
-### Fase 1: Raccolta requisiti
+## Workflow Operativo
 
-1. Chiedi all'utente:
-   - Tipo di intervento (nuova costruzione, ristrutturazione, manutenzione)
-   - Importo stimato e soglia applicabile
-   - Fasi progettuali coperte (PFTE, PD, PE, esecuzione, as-built)
-   - Esistenza di atto organizzativo interno e piano formazione
-   - Piattaforma CDE/ACDat prevista
-2. Verifica che l'importo superi la soglia di obbligatorieta: dal 01/01/2025 il BIM e obbligatorio per lavori pubblici di nuova costruzione e per interventi su costruzioni esistenti di importo pari o superiore a 2 milioni di euro (soglia fissata dal correttivo D.Lgs. 209/2024, confermata anche per il 2026). Sono esclusi gli interventi di manutenzione ordinaria/straordinaria, salvo che riguardino opere gia eseguite con metodi BIM
-3. Se sotto soglia, segnala che il BIM e facoltativo ma consigliato, e chiedi se procedere comunque
+### Fase 1: Verifica Prerequisiti e Ambito di Gara
 
-### Fase 2: Struttura del CI
+1. **Controllo Soglia e Obbligatorietà**:
+   - Importo presunto dei lavori $\ge$ 2.000.000 €? Se sì, il metodo digitale è **obbligatorio per legge** (D.Lgs. 36/2023 art. 43 e D.Lgs. 209/2024).
+   - Se sotto soglia: il BIM è facoltativo ma la SA può adottarlo motivando la scelta strategica nell'interesse della qualità dell'opera.
+   - Tipologia: Nuova costruzione / Ristrutturazione pesante / Manutenzione straordinaria.
+2. **Audit degli Adempimenti Preliminari della SA (Art. 2 Allegato I.9)**:
+   - [ ] Esiste un formale **Atto Organizzativo** interno che disciplina ruoli, nomine e processi digitali?
+   - [ ] È attivo o pianificato il **Piano di Formazione** del personale della SA?
+   - [ ] È documentato il **Piano di Acquisizione e Manutenzione HW/SW**?
+   - [ ] Sono stati individuati i referenti interni (CDE Manager SA, BIM Manager SA, RUP informato)?
+   *Nota operativa:* Se l'Atto Organizzativo manca, segnalare al RUP la necessità di predisporlo prima o contestualmente all'approvazione del progetto e del CI.
 
-Genera il CI con le seguenti sezioni obbligatorie (Allegato I.9):
+---
 
-1. **Premessa e riferimenti normativi**
-   - Citazione D.Lgs. 36/2023, Allegato I.9, norme UNI e ISO applicabili
-   
-2. **Obiettivi della gestione informativa**
-   - Usi del modello (coordinamento, quantitativi, visualizzazione, facility management)
-   - Obiettivi informativi del committente (OIR)
-   
-3. **Infrastruttura tecnologica**
-   - Requisiti HW/SW minimi
-   - Formato dati: IFC (ISO 16739-1), BCF, PDF, formati aperti
-   - Piattaforma ACDat e requisiti funzionali
-   
-4. **Livelli di fabbisogno informativo (LOIN)**
-   - Matrice LOIN per fase progettuale (milestone) e categoria di elemento/disciplina, secondo il framework UNI EN 17412-1: per ciascuna cella specificare informazione geometrica, informazione alfanumerica e documentazione richieste — non un generico "livello di dettaglio"
-   - Proprieta obbligatorie (pset/attributi) per categoria, coerenti con gli usi del modello dichiarati (art. 8, Allegato I.9)
-   - Esempio di matrice LOIN semplificata (adattare sempre al progetto specifico):
+### Fase 2: Definizione degli Obiettivi Informativi (BIM Use Cases)
 
-     | Fase | Elemento | Informazione geometrica | Informazione alfanumerica | Documentazione |
-     |------|----------|--------------------------|----------------------------|-----------------|
-     | PFTE | Involucro opaco | Volumetria di massima, stratigrafia non definita | Destinazione d'uso, superficie lorda | Relazione tecnica generale |
-     | PD | Involucro opaco | Stratigrafia semplificata, spessori indicativi | Trasmittanza di progetto, materiale prevalente | Relazione termotecnica preliminare |
-     | PE | Involucro opaco | Geometria esecutiva con tutte le discontinuita (giunti, aperture) | Trasmittanza verificata, marcatura CE prodotti, classe REI | Schede tecniche prodotto, computo metrico |
-     | As-built | Involucro opaco | Geometria as-built da rilievo/DL | Dati di fornitura, garanzie, manutenzione programmata | Certificazioni, libretto d'uso e manutenzione |
+Identificare gli obiettivi prioritari della Stazione Appaltante da dichiarare esplicitamente nella Sezione Strategica del CI:
+- **Uso 1 — Coordinamento spaziale e Clash Detection**: controllo interferenze geometriche e temporali tra architettura, strutture e impianti MEP.
+- **Uso 2 — Computazione metrica estimativa 5D**: estrazione quantitativi (Qto) dai modelli IFC e collegamento alle voci del Prezzario Regionale vigente (ex All. I.7 e I.14).
+- **Uso 3 — Simulazione e cronoprogramma 4D**: collegamento elementi WBS cantiere a elementi informativi del modello per verifica SAL.
+- **Uso 4 — Conformità normativa e Code Checking**: verifiche parametriche su requisiti igienico-sanitari, superfici illuminanti, prevenzione incendi (DM 03/08/2015) e NTC 2018.
+- **Uso 5 — Sostenibilità e Criteri Ambientali Minimi (CAM Edilizia)**: tracciabilità materiali riciclati, schede DoP/EPD e passaporto digitale dei prodotti (DM 24/11/2025, Reg. UE 2024/3110).
+- **Uso 6 — Handover e Asset Information Model (AIM / 7D)**: predisposizione modello as-built strutturato con schede COBie/manutentive per sistemi CMMS/CAFM dell'Ente (ISO 19650-3).
 
-     La matrice reale deve coprire tutte le categorie di elemento pertinenti (strutture, impianti, finiture) e va allegata al CI come annesso separato, non lasciata solo in prosa
+---
 
-5. **Struttura dell'ACDat**
-   - Struttura cartelle e nomenclatura (UNI 11337-5)
-   - Stati dei container: WIP, Shared, Published, Archived (ISO 19650-1) — specificare per ciascuno chi puo scrivere/leggere e il gate di passaggio
-   - Requisiti minimi dell'ambiente: accessibilita per permessi di ruolo, conservazione e aggiornabilita dei dati nel tempo, tracciabilita delle revisioni (UNI 11337-5)
-   - Regole di codifica file (UNI 11337-5) e sistema di classificazione degli elementi: l'Italia non dispone di un sistema di classificazione BIM nativo — il CI deve indicare esplicitamente quale sistema adottare, ad es. UNI 8290 (classificazione a livelli: classi di unita tecnologiche, unita tecnologiche, classi di elementi tecnici — nata per l'edilizia residenziale, non BIM-native) integrata con UNI EN ISO 12006-2:2020 come framework, oppure un sistema estero gia diffuso in pratica come Uniclass 2015 (11 tabelle: Complexes, Entities, Activities, Spaces, Elements, Systems, Products...). Non lasciare il sistema di classificazione non specificato: e una causa frequente di non conformita in fase di validazione IFC
-   
-6. **Competenze e ruoli richiesti**
-   - Profili BIM richiesti (UNI 11337-7), le quattro figure definite dalla norma:
-     - **CDE Manager** — gestore dell'ambiente di condivisione dati: organizza, controlla e garantisce la qualita di documenti/modelli/dati nell'ACDat lungo tutto il ciclo di vita
-     - **BIM Manager** — gestore dei processi digitalizzati: gestisce e aggiorna le linee guida di gestione informativa a livello di organizzazione/progetto, coordina le altre figure
-     - **BIM Coordinator** — coordinatore dei flussi informativi: coordina i modelli informativi, verifica qualita e coerenza dei dati tra discipline
-     - **BIM Specialist** — operatore avanzato della gestione e modellazione informativa: modella e gestisce i contenuti informativi operativi
-   - Requisiti di certificazione **UNI/PdR 78:2020** se richiesti come requisito di partecipazione o premiante: la prassi definisce requisiti di accesso all'esame per ciascuna figura UNI 11337-7, modalita d'esame, validita quinquennale del certificato e sorveglianza annuale — verificare se il bando richiede certificazione di terza parte accreditata (es. Accredia) o autodichiarazione di esperienza equivalente
-   - Organigramma informativo richiesto nell'oGI, con nominativi/ruoli e relative referenze professionali
-   
-7. **Processo di consegna informativa**
-   - Milestone di consegna per fase, coerenti con MIDP/TIDP che il pGI dovra dettagliare (ISO 19650-2)
-   - Gate di verifica ACDat (transizione WIP -> Shared -> Published, con criteri di accettazione espliciti per ciascun gate)
-   - Processo di revisione e approvazione, incluse tempistiche di risposta della stazione appaltante
-   
-8. **Criteri premiali OEPV**
-   - Riferimento normativo: art. 12 dell'Allegato I.9 individua le aree in cui i requisiti informativi possono essere utilizzati come criteri premiali (elenco indicativo, non tassativo — l'articolo va riletto sul testo vigente): integrazione gestione informazioni/progetto/rischio, cyber security, sostenibilita ambientale (green procurement), interoperabilita, supporto ai processi autorizzativi e alle verifiche, monitoraggio dei lavori, salute e sicurezza in cantiere, gestione ambientale, comunicazione di cantiere, tracciabilita dei materiali, corredo informativo finale, governo delle prestazioni operative
-   - **Non risultano linee guida ANAC dedicate specificamente ai criteri premiali per gestione informativa digitale** ex art. 12: le Linee Guida ANAC n. 2 (delibera n. 1005/2016, aggiornata con delibera n. 424/2018) restano il riferimento generale sul metodo OEPV (pesi, soglie di sbarramento, formule di attribuzione punteggio), ma non contengono una sezione specifica sul BIM — la stazione appaltante definisce i criteri premiali BIM in autonomia, nel rispetto dei principi generali di quelle linee guida. Segnalare questo punto all'utente e suggerire verifica con il consulente legale/RUP prima di pubblicare il bando
-   - Esempio di struttura pesi (puramente indicativa, da calibrare sul progetto — l'offerta tecnica complessiva vale tipicamente 70-80 punti su 100 nell'OEPV, di cui la gestione informativa e' una componente):
+### Fase 3: Strutturazione del Capitolato Informativo (Template Sezioni)
 
-     | Criterio premiale | Sotto-criterio | Peso indicativo (su totale gestione informativa) |
-     |---|---|---|
-     | Qualita del pre-BEP/oGI | Coerenza con obiettivi CI, chiarezza metodologica | 25-30% |
-     | Organigramma e competenze | Certificazioni UNI/PdR 78:2020, esperienza su progetti comparabili | 20-25% |
-     | Proposta ACDat/interoperabilita | Formati aperti, automazione controlli qualita | 15-20% |
-     | Elementi migliorativi | Automazione, sostenibilita informativa, innovazione digitale | 15-20% |
-     | Cyber security e gestione dati | Misure di protezione ACDat, gestione permessi | 10-15% |
+Il Capitolato Informativo generato deve essere articolato nelle seguenti sezioni conformi all'Art. 8 dell'Allegato I.9 e a UNI 11337-5:
 
-     I pesi vanno sempre espressi in punti (non percentuali) nel disciplinare di gara e verificati contro le soglie di sbarramento previste dalle Linee Guida ANAC n. 2
+#### Sezione 1: Premessa e Quadro Generale
+- Oggetto dell'appalto, committente, RUP e normativa vigente applicabile (D.Lgs. 36/2023, D.Lgs. 209/2024, UNI 11337, ISO 19650).
+- Regole di prevalenza documentale in caso di discordanza tra elaborati grafici tradizionali 2D e modelli informativi digitali (indicare esplicitamente quale elaborato fa fede).
 
-### Fase 3: Verifica conformita
+#### Sezione 2: Obiettivi e Requisiti Strategici di Gestione Informativa
+- Esplicitazione degli OIR (Organizational Information Requirements) e PIR (Project Information Requirements).
+- Definizione degli Usi del Modello prescritti per la commessa.
 
-Controlla il CI generato rispetto a questa checklist:
+#### Sezione 3: Requisiti LOIN (Level of Information Need - UNI EN 17412-1)
+Articolazione della matrice dei fabbisogni su tre componenti inscindibili:
+1. **Informazione Geometrica**: dettaglio dimensionale, tolleranza, rappresentazione di stratigrafie e discontinuita;
+2. **Informazione Alfanumerica**: set di proprietà obbligatorie (property set `Pset_*` standard IFC e `Pset_SA_*` personalizzati della committente);
+3. **Documentazione Collegata**: schede tecniche, certificazioni DoP, relazioni specialistiche, autorizzazioni.
 
-- [ ] Riferimento esplicito a D.Lgs. 36/2023 e Allegato I.9, con articolo citato correttamente (art. 8 per i contenuti minimi del CI, non generico)
-- [ ] Formati aperti specificati (IFC — con versione: IFC4 o IFC4.3 —, BCF, non solo formati proprietari)
-- [ ] LOIN definiti per ogni fase progettuale con le tre componenti UNI EN 17412-1 (geometria, alfanumerico, documentazione), non solo "livello di dettaglio" generico
-- [ ] Matrice LOIN allegata come annesso strutturato (tabella), non solo descritta in prosa
-- [ ] Sistema di classificazione degli elementi esplicitato (UNI 8290 + UNI EN ISO 12006-2, oppure Uniclass, oppure altro — mai lasciato indefinito)
-- [ ] Struttura ACDat con stati ISO 19650 (WIP/Shared/Published/Archived) e criteri di accettazione per ciascun gate
-- [ ] Requisiti minimi ACDat: permessi per ruolo, conservazione/aggiornabilita, tracciabilita revisioni (UNI 11337-5)
-- [ ] Ruoli BIM richiesti con riferimento a UNI 11337-7 (le quattro figure: CDE Manager, BIM Manager, BIM Coordinator, BIM Specialist)
-- [ ] Se richiesta certificazione professionale, riferimento esplicito a UNI/PdR 78:2020 e modalita di verifica (certificato di terza parte vs autodichiarazione)
-- [ ] Processo di consegna con milestone, gate, e riferimento a MIDP/TIDP che il pGI dovra produrre
-- [ ] Criteri premiali con metodo di attribuzione punteggi in punti (non percentuali), coerenti con le aree indicate dall'art. 12 Allegato I.9 e con le Linee Guida ANAC n. 2 sull'OEPV
-- [ ] Soglia di obbligatorieta BIM verificata (2 milioni di euro dal 01/01/2025, D.Lgs. 209/2024) se il CI e redatto perche obbligatorio e non facoltativo
-- [ ] Nessun riferimento a norme superate (DM 560/2017)
-- [ ] Nessun uso di terminologia LOD in luogo di LOIN
-- [ ] Nessun requisito legato a software proprietario specifico
+##### Esempio Matrice LOIN per Disciplina e Fase:
 
-## Anti-pattern
+| Milestone / Fase | Categoria Elemento | Info Geometrica (Geom) | Info Alfanumerica (Data) | Documentazione (Doc) |
+| :--- | :--- | :--- | :--- | :--- |
+| **PFTE** | Strutture Portanti (`IfcBeam`, `IfcColumn`, `IfcSlab`) | Volumi complessivi d'ingombro, maglia strutturale principale | Materiale prevalente, classe di resistenza preliminare, destinazione | Relazione di calcolo preliminare, relazione geotecnica |
+| **PFTE** | Involucro Opaco (`IfcWall`, `IfcCovering`) | Spessore lordo indicativo, posizione aperture | Trasmittanza termica teorica ($U$), codice classificazione UNI 8290 | Relazione tecnica generale di fattibilità |
+| **Prog. Esecutivo** | Strutture Portanti | Geometria dettagliata con alloggiamento armature principali e nodi | Resistenza cls ($R_{ck}$), classe esposizione, acciaio ($f_{yk}$), copriferro, codice voce prezzario | Tabulati FEM esecutivi, relazione sui materiali ex NTC 2018 |
+| **Prog. Esecutivo** | Impianti Meccanici (`IfcFlowTerminal`, `IfcEnergyConversionDevice`) | Geometria di catalogo costruttore, punti di connessione e clearance manutenzione | Portata nom., potenza termica/frigorifera, assorbimento elettrico, classe energetica, marcatura CE | Scheda tecnica costruttore, certificato CE, manuale di installazione |
+| **As-Built / Handover** | Ciascun elemento manutenibile | Geometria effettiva as-built verificata in cantiere | Numero matricola, data collaudo, frequenza manutentiva, centro di costo, fornitore | DoP, certificati collaudo, libretto d'uso e piano di manutenzione |
 
-| Errore | Correzione |
-|--------|------------|
-| Usare "LOD" (Level of Development) | Usare "LOIN" (Level of Information Need) — UNI EN 17412-1 |
-| Richiedere formato .rvt o .dwg come unico formato | Richiedere IFC come formato primario, altri come complementari |
-| Citare DM 560/2017 | Sostituire con D.Lgs. 36/2023 e Allegato I.9 |
-| Confondere CI con BEP/pGI | CI = requisiti del committente (equivalente funzionale dell'EIR ISO 19650); BEP/pGI = piano dell'appaltatore |
-| Non specificare la versione IFC | Specificare IFC4 (ISO 16739-1:2018) o IFC4.3 se applicabile |
-| LOIN uguale per tutte le fasi | Differenziare LOIN per fase (PFTE vs PE vs as-built), su tutte e tre le componenti (geometria, alfanumerico, documentazione) |
-| Non indicare un sistema di classificazione | Specificare esplicitamente il sistema adottato (UNI 8290/ISO 12006-2, Uniclass, o altro) — l'assenza genera ambiguita nella validazione IFC |
-| Citare "Linee guida ANAC sui criteri premiali BIM" come se esistesse un documento dedicato | Non esiste un documento ANAC specifico per la gestione informativa digitale — citare le Linee Guida ANAC n. 2 generali sull'OEPV e segnalare la necessita di calibrazione autonoma della stazione appaltante |
-| Criteri premiali espressi in percentuale nel disciplinare | Esprimere sempre i punteggi in punti assoluti, coerenti col totale dell'offerta tecnica |
-| Copiare l'organigramma BIM da un altro CI senza adattarlo alle 4 figure UNI 11337-7 | Verificare che ogni ruolo richiesto corrisponda a una delle 4 figure normate, con competenze e non solo un nome generico "BIM Manager" |
-| Numerare gli articoli dell'Allegato I.9 a memoria | Verificare sempre la numerazione sul testo vigente (Gazzetta Ufficiale/normattiva.it) prima di citarla in un atto di gara |
+#### Sezione 4: Ambiente di Condivisione Dati (ACDat / CDE)
+- **Fornitura e Titolarità**: specificare se l'ACDat è messo a disposizione dalla Stazione Appaltante (consigliato ex art. 4 All. I.9) o se l'onere ricade sull'affidatario con obbligo di passaggio finale di proprietà dei dati.
+- **Aree e Stati dei Container (ISO 19650-1 & UNI 11337-5)**:
+  - `WIP` (Work in Progress / L0): produzione interna al singolo task team;
+  - `Shared` (Condivisione / L1): contenitori verificati per coordinamento interdisciplinare (Codici idoneità S1-S4);
+  - `Published` (Pubblicazione / L2): deliverable ufficiali approvati dalla SA/DL per gare, autorizzazioni o SAL (Codici A, B);
+  - `Archive` (Archivio / L3): tracciamento storico e as-built congelato.
+- **Sicurezza e Protezione Dati**:
+  - Crittografia a riposo (AES-256) e in transito (TLS 1.3).
+  - Tracciabilità immutabile di ogni accesso, caricamento, scaricamento e approvazione (audit log non modificabile).
+  - Conformità GDPR per dati personali (profili anagrafici firmatari, presenze cantiere).
+  - Server localizzati all'interno dello Spazio Economico Europeo (SEE).
 
-## Output
+#### Sezione 5: Standard e Interoperabilità
+- **Formati di Consegna Obbligatori**:
+  - Modelli federati e disciplinari in formato aperto: **IFC4 (ISO 16739-1:2018)** con Model View Definition (MVD) *Design Transfer View* o *Reference View 1.2*; in via subordinata IFC 2x3 (Coordination View 2.0).
+  - File di issue tracking: **BCF (BIM Collaboration Format)** versione XML 2.1 o API BCF REST.
+  - Documenti testuali/viste 2D: PDF/A firmati digitalmente con firma CAdES o PAdES.
+- **Convenzione di Nomenclatura Container Informativi (UNI 11337-5)**:
+  - Pattern: `[PROGETTO]-[EMITTENTE]-[ZONA/FASE]-[LIVELLO]-[DISCIPLINA]-[TIPO_DOC]-[NUMERO]-[REVISIONE]`
+  - Esempio: `SCUOLA01-ARCHSTUDIO-ED01-P01-ARC-MOD-0001-R01.ifc`
+- **Sistema di Classificazione**: obbligo di indicare la tabella di classificazione adottata (UNI 8290 su 3 livelli o Uniclass 2015) mappata sull'attributo IFC `IfcClassificationReference`.
 
-Il CI viene generato come documento strutturato con:
-- Sezioni numerate
-- Tabelle LOIN (fase x categoria elemento)
-- Checklist di verifica compilata
-- Note per il professionista su punti da personalizzare
+#### Sezione 6: Ruoli e Requisiti dei Concorrenti
+- Prescrizione delle figure professionali minime del team di commessa conformi a **UNI 11337-7**:
+  - **BIM Manager**: coordinatore generale del processo informativo;
+  - **BIM Coordinator**: coordinatore tecnico di disciplina e responsabile clash/LOIN;
+  - **BIM Specialist**: modellatore esperto per ciascuna disciplina (Arch., Strutt., MEP);
+  - **CDE Manager**: gestore dell'infrastruttura ACDat.
+- Indicazione delle modalità di dimostrazione dei requisiti: certificazione di terza parte secondo **UNI/PdR 78:2020** rilasciata da organismo accreditato sotto regolamento europeo ISO/IEC 17024 (es. Accredia), ovvero comprova di esperienza professionale documentata su commesse analoghe.
 
-Formato: Markdown strutturato, convertibile in DOCX dal professionista.
+#### Sezione 7: Processo di Consegna, Revisione e Approvazione
+- Frequenza dei cicli di coordinamento e milestone di consegna allineate a MIDP e TIDP.
+- Tempistiche di risposta della SA per i passaggi di stato (es. 15 giorni lavorativi per l'approvazione formale dal passaggio da Shared a Published).
+
+#### Sezione 8: Criteri Premiali OEPV (Art. 12 Allegato I.9)
+Se la gara è aggiudicata con il criterio dell'Offerta Economicamente Più Vantaggiosa (OEPV), strutturare la premialità digitale in punti assoluti nel rispetto delle Linee Guida ANAC n. 2.
+
+##### Tabella Criteri Premiali Esemplificativa:
+
+| Ambito Art. 12 All. I.9 | Criterio Premiale | Metodo di Valutazione | Punti Max (Esempio) |
+| :--- | :--- | :--- | :--- |
+| **Qualità metodologica oGI** | Chiarezza ed efficacia della metodologia proposta per il rispetto dei LOIN e per il workflow di coordinamento multidisciplinare | Punteggio discrezionale motivato da Commissione con scala di giudizio (Tabella ANAC) | **6 punti** |
+| **Competenze certificate** | Presenza nel team operativo di professionisti certificati UNI/PdR 78:2020 (BIM Manager, BIM Coordinator) | Criterio on/off o tabellare: punti fissi per ciascun ruolo certificato da organismo accreditato | **4 punti** |
+| **Interoperabilità e OpenBIM** | Procedure automatizzate di validazione IFC basate su regole IDS (Information Delivery Specification) e protocolli BCF live | Valutazione qualitativa della relazione metodologica e dimostrazione flusso openBIM | **4 punti** |
+| **Sostenibilità e CAM Edilizia** | Integrazione nei modelli di attributi per il monitoraggio LCA, calcolo automatico percentuale riciclato (DM 24/11/2025) | Valutazione metodologica della struttura pset e reportistica estrattiva proposta | **3 punti** |
+| **Cyber Security ACDat** | Soluzioni avanzate di cifratura, autenticazione a più fattori (MFA) e segregazione accessi proposte per l'ambiente dati | Valutazione tecnica dell'architettura di sicurezza e conformità ISO 27001/GDPR | **3 punti** |
+
+*Attenzione:* Il punteggio totale dell'offerta tecnica è di norma 70-80 punti; la gestione informativa digitale si colloca tipicamente tra 10 e 20 punti complessivi.
+
+---
+
+## Checklist di Validazione di Conformità Pre-Bando
+
+Prima di validare e allegare il Capitolato Informativo al disciplinare di gara, verificare ogni punto:
+
+- [ ] **Soglia normativa aggiornata**: verificato importo lavori $\ge$ 2.000.000 € (D.Lgs. 209/2024).
+- [ ] **Adempimenti preliminari SA**: atto organizzativo e piano formazione verificati o richiamati nel bando.
+- [ ] **Formati aperti obbligatori**: IFC (versione specificata: IFC4 o IFC2x3) prescritto come formato principale; nessun vincolo di formato proprietario nativo (.rvt, .pln, .dgn) come deliverable contrattuale esclusivo.
+- [ ] **LOIN vs LOD**: terminologia impostata rigorosamente su LOIN (UNI EN 17412-1); rimossi tutti i richiami a generici "LOD USA/AIA" o al vecchio DM 560/2017.
+- [ ] **Matrice LOIN completa**: allegata tabella strutturata che declina geometria, dati alfanumerici e documentazione per ogni milestone di progetto.
+- [ ] **Classificazione specificata**: esplicitato il sistema di classificazione da adottare (UNI 8290 o Uniclass 2015).
+- [ ] **Regole ACDat esplicite**: specificata la titolarità della piattaforma, le aree/stati (WIP, Shared, Published, Archive) e le misure minime di sicurezza dei dati (GDPR, crittografia, server UE).
+- [ ] **Nomenclatura file definita**: pattern di denominazione conforme a UNI 11337-5 esplicitato con legenda e campi fissi.
+- [ ] **Figure professionali normate**: ruoli allineati a UNI 11337-7; modalità di comprova (UNI/PdR 78:2020) definita senza violare il principio di concorrenza.
+- [ ] **Prevalenza contrattuale**: inserita clausola che disciplina la gerarchia probatoria tra modelli digitali ed elaborati cartacei/PDF in caso di contrasto.
+- [ ] **Punteggi OEPV in punti assoluti**: criteri premiali conformi all'art. 12 All. I.9, espressi in punti (non percentuali) e coerenti con le Linee Guida ANAC n. 2.
+
+---
+
+## Anti-pattern da Evitare
+
+| Errore Tipico nel CI | Correzione Operativa Conforme |
+| :--- | :--- |
+| **Citare il DM 560/2017 o il DM 312/2021** | Citare esclusivamente il **D.Lgs. 36/2023** e l'**Allegato I.9** come modificati dal **D.Lgs. 209/2024**. |
+| **Applicare la soglia di 1 milione di euro** | La soglia in vigore dal 01/01/2025 è **2.000.000 €** per nuove opere e ristrutturazioni su edifici esistenti. |
+| **Richiedere estensioni native proprietarie (.rvt, .dwg) come obbligo** | Violazione del principio di neutralità tecnologica (Art. 5 Allegato I.9): prescrivere sempre **IFC4/IFC2x3** e **BCF** come formati contrattuali aperti. |
+| **Usare LOD alfabetici (LOD A-F) senza matrice LOIN** | Il D.Lgs. 36/2023 e la norma europea impongono il **LOIN (UNI EN 17412-1)** strutturato su geometria, dati alfanumerici e documenti. |
+| **Descrivere i criteri premiali in percentuali nel disciplinare** | Indicare sempre **punteggi numerici assoluti** (es. "max 4 punti") con criteri oggettivi di attribuzione per evitare ricorsi al TAR. |
+| **Lasciare il sistema di classificazione non definito** | Specificare obbligatoriamente il sistema da adottare (UNI 8290 o Uniclass 2015), altrimenti i modelli IFC risulteranno eterogenei e non validabili. |
+| **Omettere la disciplina della proprietà dell'ACDat** | Dichiarare espressamente chi fornisce l'ACDat e assicurare che alla fine della commessa tutti i dati, lo storico e i log siano di proprietà esclusiva della SA. |
+
+---
+
+## Output Strutturato del CI
+
+Quando questa skill viene invocata per redigere un Capitolato Informativo, l'agente genera un documento Markdown strutturato contenente:
+1. **Intestazione e Dati Generali di Commessa** (CUP, CIG, RUP, importo, oggetto).
+2. **Quadro Normativo Specifico di Commessa**.
+3. **Obiettivi Informativi e Usi del Modello prescritti**.
+4. **Specifiche Tecniche dell'ACDat e Regole di Sicurezza/Accesso**.
+5. **Standard di Consegna, Formati Aperti e Nomenclatura Contenitori**.
+6. **Matrice LOIN Tabellare completa per disciplina e fase**.
+7. **Organigramma dei Ruoli Informativi Richiesti**.
+8. **Matrice dei Criteri Premiali OEPV con Punteggi Assoluti e Metodo di Calcolo**.
+9. **Checklist Finale per il RUP firmabile**.
+
+---
 
 ## Limiti
 
-- La skill opera su conoscenza normativa verificata via ricerca web fino a settembre 2026; la numerazione degli articoli dell'Allegato I.9 riportata qui e incrociata su fonti secondarie (codiceappalti.it, puntoappalti.it) e non sul testo di Gazzetta Ufficiale — va sempre confermata prima dell'uso in un atto di gara vincolante
-- Eventuali aggiornamenti ANAC, MIT o UNI successivi richiedono verifica manuale
-- Il CI generato e una bozza operativa, non un documento legale validato
-- I LOIN proposti sono baseline — il professionista deve calibrarli sul progetto specifico
-- Non esiste, ad oggi, un sistema di classificazione BIM nazionale dedicato: la scelta tra UNI 8290/ISO 12006-2 e sistemi esteri (Uniclass) resta una decisione di progetto che la skill non puo automatizzare
-- I criteri premiali proposti sono esempi di struttura, non un documento ANAC ufficiale: la loro validita in gara dipende dalla coerenza con le Linee Guida ANAC n. 2 e va confermata dal RUP/consulente legale
+- La skill fornisce una bozza tecnica e procedurale ad altissima precisione; la validazione giuridica del bando e del disciplinare resta di competenza del RUP e dell'ufficio gare della Stazione Appaltante.
+- In caso di interventi soggetti a finanziamenti specifici (es. PNRR/PNC o fondi strutturali europei), il Capitolato Informativo deve recepire anche le clausole DNSH (Do No Significant Harm) e i target di monitoraggio dedicati della misura.

@@ -1,3 +1,10 @@
+---
+name: [nome-skill-kebab-case]
+description: >-
+  [Descrizione chiara in terza persona di cosa fa la skill e quando attivarla.
+  Includi trigger espliciti come norme, compiti e contesti operativi.]
+---
+
 # [Nome Skill]
 
 [Una riga che descrive cosa fa la skill.]

@@ -1,280 +1,342 @@
-# IFC LOIN Validator
+---
+name: ifc-loin-validator
+description: >-
+  Validazione e audit automatico di modelli IFC BIM rispetto a matrici LOIN di progetto, LoG, LoI, pset, proprieta obbligatorie
+  e standard buildingSMART IDS (Information Delivery Specification) secondo UNI 11337-4, UNI EN 17412-1 e ISO 16739-1.
+  Usare per verificare la qualita informativa dei modelli IFC e generare report di non conformita prima dei gate ACDat.
+---
 
-Validazione di modelli IFC rispetto a matrici LOIN di progetto. Verifica completezza LoG, LoI, pset e proprieta obbligatorie.
+# BIM IFC LOIN & Data Quality Validator
+
+Assistente specialistico per il **BIM Coordinator**, il **BIM Manager** e il **Quality Manager** nella validazione tecnica e audit automatizzato di modelli in formato aperto **IFC (IFC4 / ISO 16739-1 e IFC2x3)** rispetto alle matrici **LOIN (Level of Information Need - UNI EN 17412-1 / UNI 11337-4)**, alle specifiche standard **buildingSMART IDS (Information Delivery Specification)** e ai requisiti contrattuali del Capitolato Informativo (CI), prima del rilascio formale ai gate di consegna dell'ACDat.
+
+---
 
 ## Scope
 
-Questa skill supporta il BIM Coordinator nella:
-- Verifica automatica di modelli IFC rispetto a matrice LOIN
-- Audit di proprieta obbligatorie (pset) per categoria di elemento
-- Controllo struttura spaziale (IfcSite/IfcBuilding/IfcBuildingStorey)
-- Generazione report di non conformita con riferimenti normativi
-- Preparazione gate ACDat per passaggio da Shared a Published
+Questa skill guida la verifica automatica e l'assicurazione qualità informativa dei modelli digitali:
+- **Validazione dello Schema e dell'Integrità IFC**: verifica della sintassi del file SPF, schema dichiarato (IFC4.3, IFC4, IFC2x3), unicità assoluta dei GlobalId (GUID) e correttezza delle unità di misura di progetto (`IfcUnitAssignment`).
+- **Audit della Struttura Spaziale Gerarchica**: verifica della corretta aggregazione `IfcProject` $\rightarrow$ `IfcSite` $\rightarrow$ `IfcBuilding` $\rightarrow$ `IfcBuildingStorey`, controllo delle quote altimetriche e rilevamento di "elementi orfani" privi di relazione di contenimento spaziale (`IfcRelContainedInSpatialStructure`).
+- **Verifica del LOIN (Geometria, Dati, Documentazione ex UNI EN 17412-1)**: controllo di coerenza tra fase di commessa (PFTE, Progetto Esecutivo, As-Built) e grado di dettaglio informativo.
+- **Audit Parametrico dei Property Set (Pset Standard e Personalizzati)**: verifica di presenza, tipologia di dato e completezza dei pset ufficiali buildingSMART (`Pset_*Common`) e dei pset di commessa della Stazione Appaltante (`Pset_SA_*`, `Pset_CAM_*`).
+- **Controllo Antifrode su Valori Vuoti o Placeholder**: scansione automatizzata per intercettare testi nulli, campi vuoti o stringhe fittizie (es. `TBD`, `XXX`, `N/A`, `None`, `000`, `DA DEFINIRE`).
+- **Integrazione con lo standard buildingSMART IDS (Information Delivery Specification)**: esecuzione di controlli basati su file `.ids` leggibili da macchina per la certificazione interoperabile dei requisiti informativi.
+- **Generazione Report di Non Conformità (Audit Report & BCF Export)**: produzione di cruscotti riassuntivi per i gate di transizione ACDat (WIP $\rightarrow$ Shared $\rightarrow$ Published) ed esportazione delle anomalie in formato standard **BCF (BIM Collaboration Format)** per il tracciamento rapido da parte dei modellatori.
+
+---
 
 ## NON fa
 
-- Non modifica il modello IFC sorgente (read-only)
-- Non esegue clash detection (vedi skill `clash-detection`)
-- Non verifica la geometria 3D (solo proprieta e struttura)
-- Non valida la correttezza progettuale (solo completezza informativa)
+- Non modifica in alcun modo la geometria o i dati del modello IFC sorgente (opera esclusivamente in modalità read-only).
+- Non esegue clash detection geometrica o controllo delle interferenze fisiche (attività demandata alla skill `clash-detection`).
+- Non certifica la conformità statica, termica o strutturale del manufatto (attesta la completezza e correttezza informativa dei dati).
+- Non genera nuovi file IFC da zero (valuta e audita modelli esistenti).
 
-## Normativa di riferimento
+---
 
-- **UNI 11337-4** — Livelli di fabbisogno informativo (LOIN)
-- **UNI EN 17412-1** — Level of Information Need framework
-- **ISO 16739-1:2018** — IFC4 data schema
-- **UNI 11337-5** — Nomenclatura e struttura dei contenitori informativi
-- **ISO 19650-2** — Information delivery planning e gate di verifica
+## Normativa e Standard di Riferimento
 
-## Prerequisiti
+1. **UNI EN 17412-1:2021**:
+   - Level of Information Need (LOIN): framework fondato su tre pilastri inscindibili:
+     1. *Informazione Geometrica (LoG)*: dettaglio, dimensionalità, localizzazione, aspetto;
+     2. *Informazione Alfanumerica (LoI)*: proprietà identificative, fisiche, meccaniche, energetiche e manutentive;
+     3. *Documentazione Collegata*: schede tecniche, certificati DoP/EPD, relazioni di calcolo.
+2. **UNI 11337 (Parti 4 e 5)**:
+   - Parte 4: Livelli di sviluppo informativo e schede LOIN per oggetti e modelli;
+   - Parte 5: Requisiti di qualità informativa per il passaggio tra stati nell'ACDat.
+3. **ISO 16739-1:2018 (Industry Foundation Classes - IFC4)**:
+   - Mappatura formale di entità, attributi, relazioni e property set standard.
+4. **buildingSMART IDS (Information Delivery Specification - standard ISO 29481 compliant)**:
+   - Specificazione XML computer-interpretabile per definire requisiti di scambio dati su classi IFC, attributi, pset, materiali e classificazioni.
+5. **D.Lgs. 36/2023 & D.Lgs. 209/2024 (Allegato I.9 Artt. 5, 8, 11)**:
+   - Obbligo di formati aperti interoperabili e relazione specialistica di attestazione di conformità al CI.
 
-- Python 3.8+ con `ifcopenshell` installato (API stabile su 0.7.x/0.8.x — verificare `ifcopenshell.version` prima di usare funzioni recenti)
-- Modello IFC da validare (IFC2x3, IFC4 o IFC4X3)
-- Matrice LOIN in formato JSON o CSV (opzionale — se assente usa baseline normativa)
+---
 
-## Workflow
+## Prerequisiti Software e Moduli Python
 
-### Fase 1: Caricamento e analisi preliminare
-
-1. Chiedi all'utente:
-   - Path del file IFC da validare
-   - Path della matrice LOIN (JSON/CSV) — se disponibile
-   - Fase progettuale corrente (PFTE, PD, PE, esecuzione, as-built)
-   - Eventuali categorie da escludere dalla verifica
-2. Carica il modello IFC con ifcopenshell
-3. Esegui analisi preliminare:
-   - Conteggio entita per tipo IFC
-   - Verifica schema IFC (IFC2x3 vs IFC4)
-   - Check struttura spaziale base
-
-### Fase 2: Verifica struttura spaziale
-
-Verifica la gerarchia spaziale obbligatoria:
-
+La skill opera tramite script Python basati sulla libreria open-source standard **`ifcopenshell`** (supporto alle versioni stabili 0.7.x e 0.8.x):
+```bash
+pip install ifcopenshell
 ```
-IfcProject
-  └── IfcSite
-       └── IfcBuilding
-            └── IfcBuildingStorey (uno per piano)
-                 └── [elementi]
-```
+*(Opzionale per validazione automatica IDS: `pip install ifctester`)*.
 
-Controlli:
-- Esiste almeno un IfcSite con coordinate valide
-- Esiste almeno un IfcBuilding con nome significativo
-- Ogni IfcBuildingStorey ha elevazione definita
-- Nessun elemento orfano (non assegnato a un piano)
-- IfcSpace presenti se richiesti dalla matrice LOIN
+---
 
-### Fase 3: Verifica LOIN per categoria
+## Workflow Operativo di Validazione
 
-Per ogni categoria di elemento presente nel modello:
-
-1. **LoG (Level of Geometry)**: verifica che la rappresentazione geometrica sia coerente con la fase
-   - PFTE: volumi e superfici (LoG basso)
-   - PD: geometria di massima con aperture
-   - PE: geometria dettagliata con materiali
-   - As-built: geometria esatta come costruito
-
-2. **LoI (Level of Information)**: verifica proprieta obbligatorie per fase
-   - Controlla i pset standard IFC4 (Pset_WallCommon, Pset_DoorCommon, Pset_WindowCommon, Pset_SlabCommon, Pset_SpaceCommon)
-   - Controlla le quantita di base (Qto_WallBaseQuantities, Qto_SlabBaseQuantities, ...)
-   - Controlla proprieta custom richieste dalla matrice LOIN
-   - Verifica che i valori non siano vuoti, null o placeholder ("TBD", "XXX", "000")
-
-3. **Classificazione**: verifica sistema di classificazione
-   - In Italia non esiste un adattamento ufficiale di Uniclass 2015: la prassi comune e l'uso di codici WBS/CDS definiti nel Capitolato Informativo secondo UNI 11337-2 (denominazione e classificazione) e UNI/TS 11337-3 (codifica di opere, prodotti, attivita e risorse)
-   - Se il progetto adotta Uniclass 2015 (frequente su commesse internazionali), verificare i riferimenti tramite `IfcClassificationReference` collegati a `IfcClassification`
-   - Ogni elemento ha un codice di classificazione valido secondo il sistema dichiarato nel CI — non assumere un sistema di default
-
-### Pset standard IFC4 per categoria (riferimento buildingSMART)
-
-Elenco delle proprieta effettivamente definite nei pset comuni IFC4 (fonte: buildingSMART IFC4 Property Set Definitions). Usare questa tabella come base minima — la matrice LOIN di progetto puo richiederne un sottoinsieme o proprieta aggiuntive.
-
-| Pset | Applicabile a | Proprieta (nome esatto, tipo) |
-|------|----------------|-------------------------------|
-| `Pset_WallCommon` | IfcWall | Reference (IfcIdentifier), Status (IfcLabel, enum: NEW/EXISTING/DEMOLISH/...), AcousticRating (IfcLabel), FireRating (IfcLabel), Combustible (IfcBoolean), SurfaceSpreadOfFlame (IfcLabel), ThermalTransmittance (IfcThermalTransmittanceMeasure), IsExternal (IfcBoolean), ExtendToStructure (IfcBoolean), LoadBearing (IfcBoolean), Compartmentation (IfcBoolean) |
-| `Pset_DoorCommon` | IfcDoor | Reference, Status, FireRating, AcousticRating, SecurityRating, DurabilityRating, HygrothermalRating, IsExternal (IfcBoolean), Infiltration (IfcVolumetricFlowRateMeasure), ThermalTransmittance, GlazingAreaFraction (IfcPositiveRatioMeasure), HandicapAccessible (IfcBoolean), HasDrive (IfcBoolean), FireExit (IfcBoolean), SelfClosing (IfcBoolean), SmokeStop (IfcBoolean) |
-| `Pset_WindowCommon` | IfcWindow | Reference, Status, AcousticRating, FireRating, SecurityRating, IsExternal, Infiltration, ThermalTransmittance, GlazingAreaFraction, HasSillExternal (IfcBoolean), HasSillInternal (IfcBoolean), HasDrive (IfcBoolean), SmokeStop (IfcBoolean), FireExit (IfcBoolean) |
-| `Pset_SlabCommon` | IfcSlab | Reference, Status, AcousticRating, FireRating, Combustible, SurfaceSpreadOfFlame, ThermalTransmittance, IsExternal, LoadBearing, Compartmentation, PitchAngle (IfcPlaneAngleMeasure) |
-| `Pset_SpaceCommon` | IfcSpace | Reference, IsExternal (IfcBoolean), GrossPlannedArea (IfcAreaMeasure), NetPlannedArea (IfcAreaMeasure), PubliclyAccessible (IfcBoolean), HandicapAccessible (IfcBoolean) |
-| `Qto_WallBaseQuantities` | IfcWall | Length, Width, Height, GrossFootprintArea, NetFootprintArea, GrossSideArea, NetSideArea, GrossVolume, NetVolume, GrossWeight, NetWeight (tutte Q_LENGTH/Q_AREA/Q_VOLUME/Q_WEIGHT) |
-| `Qto_SlabBaseQuantities` | IfcSlab | Width, Length, Depth, Perimeter, GrossArea, NetArea, GrossVolume, NetVolume, GrossWeight, NetWeight |
-
-Nota: `Status`, `SecurityRating`, `DurabilityRating`, `HygrothermalRating` sono state introdotte in IFC4 e non esistono in IFC2x3 — un modello IFC2x3 non le avra mai valorizzate, non e un errore di completezza ma un limite di schema.
-
-### Fase 4: Report
-
-Genera un report strutturato:
-
-```
-REPORT VALIDAZIONE LOIN
-=======================
-Modello: [nome file]
-Schema: IFC4
-Fase: Progetto Definitivo
-Data: [data]
-Elementi totali: [n]
-Elementi verificati: [n]
-
-STRUTTURA SPAZIALE: [OK/ERRORI]
-- [dettaglio errori se presenti]
-
-NON CONFORMITA PER CATEGORIA:
-┌──────────────┬────────┬──────────────────────────┬──────────┐
-│ Categoria    │ Tipo   │ Descrizione              │ Severita │
-├──────────────┼────────┼──────────────────────────┼──────────┤
-│ IfcWall (45) │ LoI    │ Pset_WallCommon mancante │ CRITICA  │
-│ IfcDoor (12) │ LoI    │ FireRating vuoto (8/12)  │ ALTA     │
-│ IfcSpace (0) │ LoG    │ Nessun IfcSpace presente │ MEDIA    │
-└──────────────┴────────┴──────────────────────────┴──────────┘
-
-RIEPILOGO:
-- Critiche: [n]
-- Alte: [n]
-- Medie: [n]
-- Info: [n]
-
-RACCOMANDAZIONI:
-[lista azioni correttive ordinate per priorita]
+```mermaid
+graph TD
+    A[Modello IFC + Matrice LOIN / File IDS] --> B[Fase 1: Schema & Integrità Sintattica<br>Schema IFC4/2x3, Unicità GUID, Unità]
+    B --> C[Fase 2: Struttura Spaziale<br>IfcProject > Site > Building > Storey + Check Orfani]
+    C --> D[Fase 3: Audit Proprietà & Pset Obbligatori<br>buildingSMART Pset_*Common + Pset_SA_Custom]
+    D --> E[Fase 4: Rilevamento Placeholder & Valori Nulli<br>Scansione 'TBD', 'XXX', '', 'None']
+    E --> F[Fase 5: Verifica Classificazione & CAM<br>UNI 8290 / Uniclass + Pset_CAM_Edilizia]
+    F --> G[Fase 6: Generazione Output<br>Audit Report Markdown + Export BCF Issue]
 ```
 
-## Script di riferimento
+---
 
-La verifica usa `ifcopenshell` (API verificata su 0.7.x/0.8.x). Esempio di check base:
+### Fase 1: Verifica dello Schema, Integrità e Struttura Spaziale
+
+Ogni modello IFC deve superare i controlli strutturali fondamentali:
+
+1. **Schema e Header**:
+   - Verifica della versione dichiarata nell'header SPF (`IFC4`, `IFC4X3`, `IFC2x3`);
+   - Controllo dell'assegnazione delle unità di misura (`IfcUnitAssignment`): lunghezza in metri o millimetri, angolo in gradi o radianti, superficie in metri quadri, volume in metri cubi.
+2. **Unicità dei GUID**:
+   - Scansione dell'intero file per garantire che non esistano due entità con il medesimo `GlobalId` (un GlobalId duplicato corrompe l'issue tracking BCF e la federazione).
+3. **Gerarchia Spaziale Obbligatoria (ISO 16739-1)**:
+   - Deve esistere una struttura univoca:
+     `IfcProject` $\rightarrow$ `IfcSite` $\rightarrow$ `IfcBuilding` $\rightarrow$ `IfcBuildingStorey`
+   - Ciascun piano (`IfcBuildingStorey`) deve recare il parametro `Elevation` numericamente valorizzato.
+4. **Rilevamento Elementi Orfani (*Orphan Elements Check*)**:
+   - Tutti gli elementi fisici (`IfcProduct`) devono essere associati a un piano o a uno spazio tramite la relazione `IfcRelContainedInSpatialStructure`.
+   - Eventuali elementi orfani generano **Non Conformità di Severità Alta** (impossibile posizionarli correttamente nella gestione 4D/5D).
+
+---
+
+### Fase 2: Pset Standard IFC4 per Disciplina (buildingSMART)
+
+Verifica sistematica della presenza e corretta compilazione dei property set standard:
+
+#### 1. Architettura & Involucro:
+- `Pset_WallCommon`: `Reference`, `IsExternal`, `LoadBearing`, `FireRating`, `ThermalTransmittance`, `ExtendToStructure`, `Compartmentation`;
+- `Pset_DoorCommon` / `Pset_WindowCommon`: `Reference`, `IsExternal`, `FireRating`, `AcousticRating`, `SecurityRating`, `ThermalTransmittance`, `HandicapAccessible`;
+- `Pset_SlabCommon`: `Reference`, `IsExternal`, `LoadBearing`, `FireRating`, `ThermalTransmittance`, `PitchAngle`;
+- `Pset_SpaceCommon`: `Reference`, `GrossPlannedArea`, `NetPlannedArea`, `PubliclyAccessible`, `HandicapAccessible`.
+
+#### 2. Strutture Portanti:
+- `Pset_BeamCommon`: `Reference`, `LoadBearing` (= True), `FireRating`, `Span`, `Slope`;
+- `Pset_ColumnCommon`: `Reference`, `LoadBearing` (= True), `FireRating`, `Slope`;
+- `Pset_FootingCommon`: `Reference`, `LoadBearing` (= True);
+- `Pset_ReinforcingBarCommon`: `SteelGrade`, `BarDiameter`, `NominalLength`.
+
+#### 3. Impianti MEP (Meccanici ed Elettrici):
+- `Pset_FlowTerminalAirTerminal`: `FlowrateRange`, `AirflowType`, `TemperatureRange`;
+- `Pset_DistributionChamberElementTypePipe`: `PipeNominalDiameter`, `OperatingPressure`, `Medium`;
+- `Pset_CableCarrierSegmentCommon`: `NominalWidth`, `NominalHeight`, `FireResistanceRating`.
+
+#### 4. Requisiti CAM Edilizia (DM 24/11/2025):
+- `Pset_CAM_Edilizia`:
+  - `ContenutoRiciclatoPercentuale` (Tipo: `IfcPositiveRatioMeasure` o numero percentuale $\ge$ soglie minime di legge);
+  - `DisassemblabilitaPercentuale` (Tipo: `IfcPositiveRatioMeasure` per recuperabilità a fine vita $\ge 70\%$);
+  - `PresenzaSostanzePericolose` (Tipo: `IfcBoolean` = False);
+  - `CodiceCertificazioneEPD` (Tipo: `IfcLabel`, es. numero registrazione EPD).
+
+---
+
+### Fase 3: Script Python di Validazione Avanzata (`validate_ifc_loin.py`)
+
+Di seguito lo script di automazione per il controllo dei modelli, integrabile in pipeline CI/CD o eseguibile localmente dal BIM Coordinator:
 
 ```python
+import sys
 import ifcopenshell
 import ifcopenshell.util.element
 import ifcopenshell.util.classification
 
-PLACEHOLDER_VALUES = ("", "TBD", "XXX", "000", "N/A", "N/D")
+PLACEHOLDER_VALUES = {
+    "", "TBD", "XXX", "000", "N/A", "N/D", "NONE", "NULL",
+    "DA DEFINIRE", "NON DEFINITO", "TEMP", "TEST"
+}
 
 
-def validate_spatial_structure(ifc_file):
-    """Verifica gerarchia spaziale obbligatoria (IfcProject > IfcSite > IfcBuilding > IfcBuildingStorey)."""
+def audit_ifc_model(ifc_path, phase="PE"):
+    print(f"\n--- AVVIO AUDIT LOIN: {ifc_path} (Fase: {phase}) ---")
+    model = ifcopenshell.open(ifc_path)
     issues = []
-    if not ifc_file.by_type("IfcSite"):
-        issues.append(("CRITICA", "Nessun IfcSite presente"))
-    if not ifc_file.by_type("IfcBuilding"):
-        issues.append(("CRITICA", "Nessun IfcBuilding presente"))
-    storeys = ifc_file.by_type("IfcBuildingStorey")
+
+    # 1. Controllo Unicita GlobalId
+    guids = set()
+    for element in model.by_type("IfcRoot"):
+        if element.GlobalId in guids:
+            issues.append({
+                "severity": "CRITICA",
+                "entity": element.is_a(),
+                "id": element.GlobalId,
+                "msg": f"GlobalId duplicato rilevato: {element.GlobalId}"
+            })
+        guids.add(element.GlobalId)
+
+    # 2. Controllo Struttura Spaziale
+    sites = model.by_type("IfcSite")
+    buildings = model.by_type("IfcBuilding")
+    storeys = model.by_type("IfcBuildingStorey")
+
+    if not sites:
+        issues.append({"severity": "CRITICA", "entity": "IfcSite", "id": "-", "msg": "IfcSite mancante"})
+    if not buildings:
+        issues.append({"severity": "CRITICA", "entity": "IfcBuilding", "id": "-", "msg": "IfcBuilding mancante"})
     if not storeys:
-        issues.append(("CRITICA", "Nessun IfcBuildingStorey presente"))
-    for storey in storeys:
-        if storey.Elevation is None:
-            issues.append(("ALTA", f"Elevazione mancante: {storey.Name}"))
+        issues.append({"severity": "CRITICA", "entity": "IfcBuildingStorey", "id": "-", "msg": "Nessun IfcBuildingStorey definito"})
+
+    for st in storeys:
+        if st.Elevation is None:
+            issues.append({"severity": "ALTA", "entity": "IfcBuildingStorey", "id": st.GlobalId, "msg": f"Elevazione non definita per piano: {st.Name}"})
+
+    # 3. Controllo Elementi Orfani
+    contained_elements = set()
+    for rel in model.by_type("IfcRelContainedInSpatialStructure"):
+        for el in rel.RelatedElements:
+            contained_elements.add(el.id())
+
+    for element in model.by_type("IfcElement"):
+        if element.id() not in contained_elements:
+            issues.append({
+                "severity": "ALTA",
+                "entity": element.is_a(),
+                "id": element.GlobalId,
+                "msg": f"Elemento orfano: non assegnato a nessun piano spaziale ({element.Name})"
+            })
+
+    # 4. Controllo Pset Obbligatori per Elemento
+    checks_matrix = {
+        "IfcWall": {
+            "pset": "Pset_WallCommon",
+            "props": ["IsExternal", "LoadBearing", "FireRating", "ThermalTransmittance"]
+        },
+        "IfcDoor": {
+            "pset": "Pset_DoorCommon",
+            "props": ["IsExternal", "FireRating"]
+        },
+        "IfcSlab": {
+            "pset": "Pset_SlabCommon",
+            "props": ["LoadBearing", "IsExternal", "ThermalTransmittance"]
+        },
+        "IfcBeam": {
+            "pset": "Pset_BeamCommon",
+            "props": ["LoadBearing"]
+        }
+    }
+
+    for ifc_class, req in checks_matrix.items():
+        elements = model.by_type(ifc_class)
+        for el in elements:
+            # get_psets con should_inherit=True recupera proprieta sia di istanza che di tipo
+            psets = ifcopenshell.util.element.get_psets(el, psets_only=True)
+            target_pset = req["pset"]
+
+            if target_pset not in psets:
+                issues.append({
+                    "severity": "CRITICA",
+                    "entity": ifc_class,
+                    "id": el.GlobalId,
+                    "msg": f"Property Set '{target_pset}' assente sull'elemento {el.Name}"
+                })
+                continue
+
+            pset_data = psets[target_pset]
+            for prop in req["props"]:
+                val = pset_data.get(prop)
+                if val is None:
+                    issues.append({
+                        "severity": "ALTA",
+                        "entity": ifc_class,
+                        "id": el.GlobalId,
+                        "msg": f"Proprieta '{prop}' mancante in '{target_pset}' ({el.Name})"
+                    })
+                elif isinstance(val, str) and (val.strip().upper() in PLACEHOLDER_VALUES or len(val.strip()) == 0):
+                    issues.append({
+                        "severity": "MEDIA",
+                        "entity": ifc_class,
+                        "id": el.GlobalId,
+                        "msg": f"Proprieta '{prop}' valorizzata con placeholder/vuota: '{val}' ({el.Name})"
+                    })
+
+    # 5. Report di Sintesi
+    print(f"Scansione completata. Totale anomalie riscontrate: {len(issues)}")
+    critiche = [i for i in issues if i["severity"] == "CRITICA"]
+    alte = [i for i in issues if i["severity"] == "ALTA"]
+    medie = [i for i in issues if i["severity"] == "MEDIA"]
+
+    print(f"- Critiche (bloccanti): {len(critiche)}")
+    print(f"- Alte (risoluzione obbligatoria): {len(alte)}")
+    print(f"- Medie (placeholder/avvisi): {len(medie)}")
+
     return issues
-
-
-def validate_pset(element, pset_name, required_props):
-    """Verifica proprieta obbligatorie in un pset (occorrenza + tipo, via should_inherit)."""
-    issues = []
-    # should_inherit=True (default) unisce automaticamente le proprieta
-    # ereditate dal tipo (IfcWallType, IfcDoorType, ...): non serve
-    # richiamare ifcopenshell.util.element.get_type() a parte.
-    psets = ifcopenshell.util.element.get_psets(element, psets_only=True)
-    if pset_name not in psets:
-        issues.append(("CRITICA", f"{pset_name} mancante su {element.Name} ({element.GlobalId})"))
-        return issues
-    pset = psets[pset_name]
-    for prop in required_props:
-        val = pset.get(prop)
-        if val is None or (isinstance(val, str) and val.strip().upper() in PLACEHOLDER_VALUES):
-            issues.append(("ALTA", f"{prop} vuoto/placeholder in {pset_name} su {element.Name}"))
-    return issues
-
-
-def validate_quantities(element, qto_name, required_qtos):
-    """Verifica grandezze in un Qto_* (es. Qto_WallBaseQuantities)."""
-    issues = []
-    qtos = ifcopenshell.util.element.get_psets(element, qtos_only=True)
-    if qto_name not in qtos:
-        issues.append(("MEDIA", f"{qto_name} mancante su {element.Name}"))
-        return issues
-    for qty in required_qtos:
-        if qtos[qto_name].get(qty) is None:
-            issues.append(("MEDIA", f"{qty} mancante in {qto_name} su {element.Name}"))
-    return issues
-
-
-def validate_classification(element):
-    """Verifica presenza di almeno un riferimento di classificazione (IfcClassificationReference)."""
-    references = ifcopenshell.util.classification.get_references(element)
-    if not references:
-        return [("MEDIA", f"Nessuna classificazione assegnata a {element.Name}")]
-    return []
 ```
 
-Esempio d'uso su tutti i muri del modello:
+---
+
+### Fase 4: Validazione Standard con buildingSMART IDS (Information Delivery Specification)
+
+Quando il Capitolato Informativo o il pGI forniscono una specifica machine-readable in formato `.ids`, l'agente attiva la verifica automatica:
 
 ```python
-model = ifcopenshell.open("modello.ifc")
+import ifctester
+import ifctester.reporter
 
-all_issues = []
-for wall in model.by_type("IfcWall"):
-    all_issues += validate_pset(
-        wall, "Pset_WallCommon",
-        ["IsExternal", "LoadBearing", "FireRating", "ThermalTransmittance"],
-    )
-    all_issues += validate_quantities(
-        wall, "Qto_WallBaseQuantities", ["NetSideArea", "GrossVolume"],
-    )
+def validate_ids(ifc_file_path, ids_file_path, output_html_path):
+    # Carica la specifica IDS
+    my_ids = ifctester.open(ids_file_path)
+    
+    # Esegue la validazione sul modello IFC
+    my_ids.validate(ifc_file_path)
+    
+    # Genera il report formale HTML
+    reporter = ifctester.reporter.Html(my_ids)
+    reporter.report()
+    reporter.to_file(output_html_path)
+    print(f"Report IDS generato con successo: {output_html_path}")
 ```
 
-## Anti-pattern
+---
 
-| Errore | Correzione |
-|--------|------------|
-| Modificare il file IFC durante la validazione | MAI scrivere sull'IFC — solo lettura e report |
-| Ignorare GlobalId duplicati | Segnalare sempre — indica copia errata di elementi |
-| Validare solo i pset standard | Includere anche pset custom da matrice LOIN di progetto |
-| Report con solo conteggio errori | Dettagliare per elemento con path spaziale completo |
-| Usare criteri LOIN fissi | Calibrare su fase progettuale e matrice LOIN del CI |
-| Inventare nomi di proprieta pset "plausibili" | Verificare sempre il nome esatto su buildingsmart.org o nei psd XML ufficiali — un nome sbagliato produce falsi negativi silenziosi |
-| Cercare proprieta solo sull'occorrenza (`element.IsDefinedBy`) navigando manualmente le relazioni | Usare `ifcopenshell.util.element.get_psets()`, che gestisce automaticamente `IfcRelDefinesByProperties`, `IfcRelDefinesByType` e l'ereditarieta (`should_inherit=True`) |
-| Trattare `get_psets()` senza argomenti come "solo proprieta" | Di default restituisce sia pset che quantity set: usare `psets_only=True` o `qtos_only=True` per isolarli |
-| Confrontare pset di IFC2x3 e IFC4 come fossero identici | `Status`, `SecurityRating`, `DurabilityRating`, `HygrothermalRating` esistono solo da IFC4 in poi — non segnalarle come mancanti su modelli IFC2x3 |
+### Fase 5: Modello di Report di Validazione LOIN
 
-## Formato matrice LOIN (input opzionale)
+```markdown
+# AUDIT REPORT QUALITÀ INFORMATIVA LOIN (UNI EN 17412-1)
 
-```json
-{
-  "fase": "PD",
-  "categorie": {
-    "IfcWall": {
-      "log": "medio",
-      "pset_richiesti": {
-        "Pset_WallCommon": ["IsExternal", "FireRating", "ThermalTransmittance"],
-        "VXt_Custom": ["Codice_WBS", "Fase_Cantiere"]
-      }
-    },
-    "IfcDoor": {
-      "log": "medio",
-      "pset_richiesti": {
-        "Pset_DoorCommon": ["FireRating", "IsExternal", "AcousticRating"]
-      }
-    },
-    "IfcSlab": {
-      "log": "medio",
-      "pset_richiesti": {
-        "Pset_SlabCommon": ["LoadBearing", "FireRating", "ThermalTransmittance"],
-        "Qto_SlabBaseQuantities": ["NetArea", "GrossVolume"]
-      }
-    },
-    "IfcSpace": {
-      "log": "basso",
-      "pset_richiesti": {
-        "Pset_SpaceCommon": ["GrossPlannedArea", "HandicapAccessible"]
-      }
-    }
-  }
-}
+**Modello Analizzato**: `SCUOLA01-ARCHS-ED01-ZZZ-ARC-MOD-0001-R01.ifc`
+**Schema Rilevato**: IFC4 (ISO 16739-1:2018) — **Fase Progettuale**: Progetto Esecutivo (PE)
+**Data Audit**: 03/09/2026 — **BIM Coordinator**: [Nome e Cognome]
+
+## 1. Indicatori Sintetici di Qualità (Data Quality Index)
+- **Totale Entità Fisiche**: 1.240
+- **Indice di Completezza LOIN**: **94.2%** (Soglia minima di accettazione gate: 95.0%)
+- **GUID Unici**: 100% (Nessun duplicato)
+- **Elementi Orfani**: 4 elementi rilevati fuori dalla gerarchia spaziale
+
+## 2. Tabella di Dettaglio Non Conformità Rilevate
+
+| ID Entità (GlobalId) | Classe IFC | Categoria Errore | Proprietà / Parametro Contestato | Severità | Azione Correttiva Necessaria |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| `2v$01A8xD7$uV9_k2` | `IfcWall` | Struttura Spaziale | `IfcRelContainedInSpatialStructure` | **ALTA** | Assegnare il setto murario al piano `P01` |
+| `3a_98L0xK8$wR1_m0` | `IfcWall` | Pset Mancante | `Pset_WallCommon.ThermalTransmittance` | **ALTA** | Inserire valore trasmittanza certificata ($U$) |
+| `0j$11X9xD4$yT8_b1` | `IfcDoor` | Valore Placeholder | `Pset_DoorCommon.FireRating = 'TBD'` | **MEDIA**| Sostituire con classe REI/EI effettiva (es. EI 60) |
+| `1k_44M2xP3$zQ5_c9` | `IfcSlab` | Requisito CAM | `Pset_CAM_Edilizia.ContenutoRiciclato` | **ALTA** | Valorizzare percentuale riciclato ex DM 24/11/2025 |
+
+## 3. Esito del Gate di Transizione ACDat (WIP -> Shared)
+**ESITO: RESPINTO (Codice CR)**. Il modello presenta un indice di completezza pari al 94.2% (inferiore alla soglia di gate del 95%) e 4 elementi orfani.
+I ticket di anomalia sono stati esportati nel file BCF allegato (`SCUOLA01-ARC-MOD-0001-NCR01.bcfzip`) per la rapida risoluzione entro 5 giorni lavorativi.
 ```
+
+---
+
+## Anti-pattern nella Validazione IFC
+
+| Errore Tipico del Validatore | Conseguenza Operativa | Procedura Corretta |
+| :--- | :--- | :--- |
+| **Cercare le proprietà solo a livello di istanza (`element.IsDefinedBy`)** | **Falsi positivi**: le proprietà definite sui tipi (`IfcTypeObject`) risultano erroneamente mancanti | Utilizzare sempre `ifcopenshell.util.element.get_psets(el, should_inherit=True)`. |
+| **Non distinguere pset da quantità (Qto)** | **Errori di parsing**: i quantity set contengono grandezze fisiche, non semplici stringhe | Isolare le verifiche usando `psets_only=True` o `qtos_only=True`. |
+| **Accettare valori placeholder (`TBD`, `N/A`, `XXX`)** | **Modelli vuoti che passano il check formale** ma risultano inutilizzabili per computi 5D e as-built | Impostare filtri di scansione stringhe per intercettare valori fittizi. |
+| **Trattare IFC2x3 e IFC4 con le stesse regole** | **Falsi errori**: proprietà come `Status`, `SecurityRating`, `DurabilityRating` esistono solo in IFC4 | Adattare il set di proprietà richieste allo schema dichiarato nell'header del file. |
+| **Emettere solo report PDF senza file BCF** | **Perdita di tempo dei modellatori** nel cercare manualmente gli elementi nel software di authoring | Esportare sempre le issue in formato standard aperto BCF (BIM Collaboration Format). |
+
+---
+
+## Output Strutturato
+
+Quando invocata, la skill genera:
+1. **Audit Report LOIN Completo** in formato Markdown (con percentuali di completezza e matrice non conformità).
+2. **Script Python di Validazione Eseguibile** personalizzato sulla matrice LOIN della specifica commessa.
+3. **Specifica Machine-Readable IDS (`.ids`)** buildingSMART pronta per essere distribuita al team di progettazione.
+4. **Archivio BCF (`.bcfzip`)** contenente i topic delle non conformità rilevate con screenshot e GUID collegati.
+
+---
 
 ## Limiti
 
-- La verifica LoG e approssimativa (basata su tipo di rappresentazione, non su misure geometriche precise)
-- Pset custom richiedono matrice LOIN esplicita — non sono inferibili
-- Performance: modelli >500MB possono richiedere tempo significativo
-- Non verifica coerenza tra modelli federati (richiede clash detection)
+- La skill analizza la qualità alfanumerica, strutturale e sintattica del modello IFC; la verifica di rispondenza delle quantità estratte (computo metrico) rispetto al prezzario regionale richiede l'uso combinato con la skill `quantities-cost-linking`.
+- Modelli IFC federati di dimensioni eccezionali (> 1 GB) devono essere analizzati suddividendoli per disciplina o per piano per ottimizzare l'uso della memoria RAM in ambiente Python.

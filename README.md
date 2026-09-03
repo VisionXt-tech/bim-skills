@@ -5,46 +5,111 @@
 <br>
 
 [![License](https://img.shields.io/badge/license-MIT-87AFAE?style=flat-square&labelColor=000000)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-26-87AFAE?style=flat-square&labelColor=000000)](catalog.json)
-[![Agents](https://img.shields.io/badge/agents-6-87AFAE?style=flat-square&labelColor=000000)](agents/README.md)
-[![Built for](https://img.shields.io/badge/built%20for-Claude%20Code-87AFAE?style=flat-square&labelColor=000000)](https://claude.com/claude-code)
+[![Skills](https://img.shields.io/badge/skills-26-87AFAE?style=flat-square&labelColor=000000)](#catalogo-skill)
+[![Agents](https://img.shields.io/badge/agents-6-87AFAE?style=flat-square&labelColor=000000)](#agenti)
+[![Built for](https://img.shields.io/badge/built%20for-Claude%20Code%20%7C%20Antigravity%20%7C%20Cursor-87AFAE?style=flat-square&labelColor=000000)](#quick-start)
 
 </div>
 
 # BIM Skills Italia
 
-Una raccolta open-source di skill specializzate per professionisti BIM che operano nel contesto normativo italiano. Ci dedichiamo a **trasformare le procedure BIM italiane — D.Lgs. 36/2023, UNI 11337, ISO 19650 — in workflow deterministici che Claude Code puo eseguire**, cosi ogni skill diventa un collaboratore esperto di normative e strumenti, non un generatore di testo generico.
+Una raccolta open-source di skill specializzate per professionisti BIM che operano nel contesto normativo italiano. Ci dedichiamo a **trasformare le procedure BIM italiane — D.Lgs. 36/2023, UNI 11337, ISO 19650 — in workflow deterministici che gli agenti AI possono eseguire**, cosi ogni skill diventa un collaboratore esperto di normative e strumenti su **Claude Code**, **Google Antigravity** e **Cursor**.
 
 > Progetto di [VisionXt](https://visionxt.tech) — aperto a contributi della community AEC italiana.
 
 ---
 
-## Quick Start
+## Installazione Rapida (One-Liner Guidata)
 
-### Installazione completa (tutte le skill)
+Puoi installare l'intera suite di skill e agenti BIM **con una singola riga di comando** direttamente dal terminale, senza dover clonare manualmente il repository.
+
+### 1. Installazione Guidata Interattiva (Consigliata)
+
+Esegui il comando: l'installer ti mostrerà un menu interattivo a video per scegliere l'ambiente desiderato:
 
 **Windows (PowerShell):**
 ```powershell
 irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1 | iex
 ```
 
-**macOS / Linux:**
+**macOS / Linux (Bash):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.sh | bash
 ```
 
-### Installazione singola skill
+---
 
-Clona il repo e copia solo la skill che ti serve:
+### 2. Installazione One-Liner per Strumento Specifico
 
+Se preferisci installare direttamente per il tuo assistente AI senza passare dal menu:
+
+#### Claude Code
+Installa le 26 skill in `~/.claude/skills/` e i 6 agenti in `~/.claude/agents/`:
+- **Windows (PowerShell):**
+  ```powershell
+  & ([scriptblock]::Create((irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1))) -Target claude
+  ```
+- **macOS / Linux:**
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.sh | bash -s -- --target claude
+  ```
+
+#### Google Antigravity
+Installa le 26 skill e i 6 workflow agenti in `~/.gemini/config/skills/`:
+- **Windows (PowerShell):**
+  ```powershell
+  & ([scriptblock]::Create((irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1))) -Target antigravity
+  ```
+- **macOS / Linux:**
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.sh | bash -s -- --target antigravity
+  ```
+
+#### Cursor
+Installa le 26 skill e i 6 agenti in `~/.cursor/skills/`:
+- **Windows (PowerShell):**
+  ```powershell
+  & ([scriptblock]::Create((irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1))) -Target cursor
+  ```
+- **macOS / Linux:**
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.sh | bash -s -- --target cursor
+  ```
+
+#### Tutti gli Ambienti (All-in-One)
+- **Windows (PowerShell):**
+  ```powershell
+  & ([scriptblock]::Create((irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1))) -Target all
+  ```
+- **macOS / Linux:**
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.sh | bash -s -- --target all
+  ```
+
+---
+
+### 3. Installazione da Repository Locale (Sviluppatori)
+
+Se hai già clonato il repository in locale:
+```powershell
+# Windows PowerShell (apre il menu guidato, oppure usa -Target <tool>)
+.\scripts\install.ps1
+```
 ```bash
-git clone https://github.com/VisionXt-tech/bim-skills.git
-cp -r bim-skills/skills/ifc-loin-quality/ifc-loin-validator ~/.claude/skills/bim/ifc-loin-validator
+# macOS / Linux (apre il menu guidato, oppure usa --target <tool>)
+./scripts/install.sh
 ```
 
-### Verifica
+---
 
-In Claude Code, digita `/` e cerca le skill BIM installate. Ogni skill ha il suo slash command.
+### 4. Verifica e Primo Utilizzo
+
+Dopo l'installazione, apri il tuo ambiente AI e verifica la disponibilità delle skill:
+- **Claude Code**: digita `/` per vedere le skill disponibili o seleziona uno degli agenti `bim-gara`, `bim-delivery-team`, `bim-quality-gate`, `bim-cde-manager`, `bim-asset-manager`, `bim-revit-dev`.
+- **Google Antigravity**: digita `/` nella chat per visualizzare l'elenco delle skill BIM caricate on-demand.
+- **Cursor**: usa `@` per referenziare le skill nel contesto o nei prompt di editing.
+
+> Consulta la guida dettagliata [**docs/installazione.md**](docs/installazione.md) per ulteriori dettagli sui percorsi e risoluzione dei problemi.
 
 ---
 
@@ -76,25 +141,25 @@ Skill basate su D.Lgs. 36/2023, Allegato I.9, UNI 11337 e ISO 19650.
 | | `maintenance-cmms` | Facility Manager | Integrazione AIM con sistemi CMMS/CAFM |
 | | `digital-twin-analytics` | BIM Manager Asset | Analytics IoT e performance energetiche |
 
-### Strumenti e Piattaforme
+### BIM Tools (Piattaforme & Computational Design)
 
-Skill per sviluppo e automazione con i principali tool BIM.
+Skill per sviluppo software, automazione e computational design con i principali strumenti BIM.
 
 | Skill | Piattaforma | Cosa fa |
 |-------|------------|---------|
-| `revit-api` | Revit API (C#) | Sviluppo add-in Revit: transazioni, filtri, famiglie, viste, export |
+| `revit-api` | Revit API (C# .NET 8) | Sviluppo add-in Revit: transazioni, filtri, famiglie, viste, export |
 | `revit-dynamo` | Dynamo for Revit | Script Dynamo: nodi Python, DesignScript, package, data flow |
-| `revit-cpp-plugin` | Revit C++ | Plugin nativi C++: IExternalCommand, ribbon, performance-critical ops |
-| `rhino` | Rhinoceros | Scripting RhinoCommon, comandi, geometria NURBS |
+| `revit-cpp-plugin` | Revit C++ | Plugin nativi C++: P/Invoke, OpenMP, performance-critical ops |
+| `rhino` | Rhinoceros | Scripting RhinoCommon, comandi, geometria NURBS e SubD |
 | `rhino-inside-revit` | Rhino.Inside.Revit | Interop Rhino-Revit: geometria complessa in contesto BIM |
 | `grasshopper` | Grasshopper | Definizioni parametriche, componenti custom, data tree |
-| `pyrevit` | pyRevit | Estensioni pyRevit: script, UI, hook, engine CPython 3 |
+| `pyrevit` | pyRevit | Estensioni pyRevit: script, UI XAML, hook, engine CPython 3 |
 
 ---
 
 ## Come Funzionano
 
-Ogni skill e un file `SKILL.md` che istruisce Claude Code su:
+Ogni skill e un file `SKILL.md` dotato di frontmatter YAML standard che istruisce gli agenti AI (**Claude Code**, **Google Antigravity**, **Cursor**) su:
 
 1. **Scope** — cosa fa e cosa NON fa
 2. **Normativa di riferimento** — norme e articoli specifici
@@ -118,27 +183,28 @@ bim-skills/
 │   ├── ifc-loin-quality/       # Famiglia 4: Modelli IFC, LOIN, qualita
 │   ├── 4d-5d-costs/            # Famiglia 5: 4D/5D, costi, tracciabilita
 │   ├── asset-digital-twin/     # Famiglia 6: Asset Management e Digital Twin
-│   └── tools/                  # Skill per piattaforme (Revit, Rhino, pyRevit...)
+│   └── bim-tools/              # Famiglia 7: BIM Tools (Revit, Rhino, pyRevit...)
 ├── agents/                     # Definizioni agenti multi-skill
-├── scripts/                    # Installer
-├── docs/                       # Documentazione architetturale
-└── catalog.json                # Indice machine-readable
+├── scripts/                    # Installer multi-target (install.ps1, install.sh)
+├── docs/                       # Documentazione architetturale e template
+├── AGENTS.md                   # Direttive e vincoli normativi cross-platform
+└── CLAUDE.md                   # Convenzioni operative per Claude Code
 ```
 
 ---
 
 ## Agenti
 
-Agenti multi-skill che combinano piu competenze per workflow end-to-end. Copia in `.claude/agents/` del tuo progetto.
+Agenti multi-skill che combinano piu competenze per workflow end-to-end. Gli script di installazione li configurano automaticamente come agenti per Claude Code e come workflow skills per Antigravity e Cursor.
 
 | Agente | Cosa fa | Ruolo target |
 |--------|---------|-------------|
-| [`gara-bim`](agents/gara-bim.md) | Ciclo gara completo: CI, valutazione oGI, consolidamento pGI | BIM Manager SA, RUP |
-| [`delivery-team`](agents/delivery-team.md) | BEP, MIDP/TIDP, protocollo informativo | Lead Appointed Party |
-| [`quality-gate`](agents/quality-gate.md) | Verifica LOIN, nomenclatura, struttura spaziale, clash | BIM Coordinator |
-| [`cde-manager`](agents/cde-manager.md) | Setup ACDat, governance flussi, audit sicurezza | CDE Manager |
-| [`asset-manager`](agents/asset-manager.md) | AIM, piani manutentivi, CMMS, analytics IoT | Facility Manager |
-| [`revit-dev`](agents/revit-dev.md) | Sviluppo Revit: sceglie tra pyRevit/C#/Dynamo/C++/Rhino.Inside | Developer |
+| [`bim-gara`](agents/bim-gara.md) | Ciclo gara completo: CI, valutazione oGI, consolidamento pGI | BIM Manager SA, RUP |
+| [`bim-delivery-team`](agents/bim-delivery-team.md) | BEP, MIDP/TIDP, protocollo informativo | Lead Appointed Party |
+| [`bim-quality-gate`](agents/bim-quality-gate.md) | Verifica LOIN, nomenclatura, struttura spaziale, clash | BIM Coordinator |
+| [`bim-cde-manager`](agents/bim-cde-manager.md) | Setup ACDat, governance flussi, audit sicurezza | CDE Manager |
+| [`bim-asset-manager`](agents/bim-asset-manager.md) | AIM, piani manutentivi, CMMS, analytics IoT | Facility Manager |
+| [`bim-revit-dev`](agents/bim-revit-dev.md) | Sviluppo Revit: sceglie tra pyRevit/C#/Dynamo/C++/Rhino.Inside | Developer |
 
 ---
 
