@@ -119,15 +119,16 @@ Se stai sviluppando o personalizzando le skill nel tuo clone locale del reposito
 
 ## Risoluzione dei Problemi (Troubleshooting)
 
-### 1. PowerShell: "L'esecuzione degli script è disattivata sul sistema in uso"
-Se ricevi un errore di policy di esecuzione in PowerShell (`ExecutionPolicy`), esegui una volta il comando:
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-```
-oppure esegui lo script bypassando la policy per la sola sessione corrente:
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\install.ps1
-```
+### 1. PowerShell: "L'esecuzione degli script è disattivata" o "Accesso negato"
+Se ricevi un errore di policy di esecuzione (`ExecutionPolicy`) o restrizioni di sicurezza (AMSI/Antivirus) eseguendo comandi con pipe `| iex`:
+1. Imposta la policy utente:
+   ```powershell
+   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+   ```
+2. Oppure scarica ed esegui lo script bypassando la policy in due passaggi:
+   ```powershell
+   irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/install.ps1 -OutFile $env:TEMP\install.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\install.ps1
+   ```
 
 ### 2. Git non trovato
 Gli installer one-liner scaricano l'archivio del repository via `git clone --depth 1`. Assicurati che `git` sia installato sul sistema e presente nel `PATH`.
@@ -135,8 +136,23 @@ Gli installer one-liner scaricano l'archivio del repository via `git clone --dep
 ### 3. Aggiornamento delle Skill alle versioni più recenti
 Per aggiornare la libreria alle ultime modifiche pubblicate su GitHub, è sufficiente rieseguire il comando one-liner: i file esistenti verranno sovrascritti con l'ultima versione ufficiale.
 
-### 4. Disinstallazione
-Per rimuovere le skill BIM dal tuo ambiente:
-- **Claude Code**: elimina le cartelle delle skill in `~/.claude/skills/` e gli agenti `bim-*.md` in `~/.claude/agents/`.
-- **Google Antigravity**: elimina le cartelle delle skill da `~/.gemini/config/skills/`.
-- **Cursor**: elimina le cartelle da `~/.cursor/skills/`.
+### 4. Disinstallazione e Pulizia
+
+Puoi rimuovere in modo automatico e selettivo solo le skill e gli agenti BIM (senza toccare le tue altre skill personali):
+
+#### Metodo Automatico One-Liner
+- **Windows (PowerShell)**:
+  ```powershell
+  irm https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/uninstall.ps1 | iex
+  ```
+- **macOS / Linux**:
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/VisionXt-tech/bim-skills/main/scripts/uninstall.sh | bash
+  ```
+
+#### Da Clone Locale
+- **Windows**: `powershell -ExecutionPolicy Bypass -File scripts\uninstall.ps1`
+- **macOS / Linux**: `chmod +x scripts/uninstall.sh && ./scripts/uninstall.sh`
+
+È possibile specificare l'ambiente target con il parametro `-Target claude`, `-Target antigravity`, `-Target cursor` oppure `-Target all`.
+

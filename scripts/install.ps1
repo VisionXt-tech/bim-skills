@@ -28,7 +28,7 @@ Write-Host ""
 # Modalità guidata se Target non è specificato
 if ([string]::IsNullOrWhiteSpace($Target) -or $Target -eq "interactive") {
     # Verifica se siamo in console interattiva
-    $isInteractive = $Host.UI.RawUI -ne $null -and [System.Environment]::UserInteractive
+    $isInteractive = $null -ne $Host.UI.RawUI -and [System.Environment]::UserInteractive
     if ($isInteractive) {
         Write-Host "  Seleziona l'ambiente in cui installare le skill e gli agenti BIM:" -ForegroundColor White
         Write-Host "    [1] Claude Code        (~/.claude/skills e ~/.claude/agents)" -ForegroundColor Yellow
@@ -58,7 +58,8 @@ Write-Host "  -> Ambiente di destinazione selezionato: $Target" -ForegroundColor
 Write-Host ""
 
 # Determina sorgente (locale o clonata)
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path -ErrorAction SilentlyContinue
+$cmdPath = if ($MyInvocation.MyCommand -and $MyInvocation.MyCommand.Path) { $MyInvocation.MyCommand.Path } else { $null }
+$scriptDir = if ($cmdPath) { Split-Path -Parent $cmdPath } else { $null }
 $repoRoot = if ($scriptDir) { Split-Path -Parent $scriptDir } else { $null }
 $isLocal = ($repoRoot -and (Test-Path (Join-Path $repoRoot "skills")))
 
@@ -121,7 +122,7 @@ function Install-Agents {
 }
 
 # Pulizia vecchi agenti senza prefisso bim-
-function Clean-LegacyAgents {
+function Remove-LegacyAgents {
     param([string]$Dir, [switch]$IsFolder)
     $legacy = @("gara-bim", "delivery-team", "cde-manager", "quality-gate", "asset-manager", "revit-dev")
     foreach ($l in $legacy) {
@@ -139,7 +140,7 @@ function Clean-LegacyAgents {
 if ($Target -eq "claude" -or $Target -eq "all") {
     $claudeSkills = "$env:USERPROFILE\.claude\skills"
     $claudeAgents = "$env:USERPROFILE\.claude\agents"
-    Clean-LegacyAgents -Dir $claudeAgents
+    Remove-LegacyAgents -Dir $claudeAgents
     $cSkillsCount = Install-SkillsFlattened -DestDir $claudeSkills
     $cAgentsCount = Install-Agents -DestDir $claudeAgents
     Write-Host "  [OK] Claude Code        : $cSkillsCount skill in $claudeSkills e $cAgentsCount agenti in $claudeAgents" -ForegroundColor Green
@@ -147,7 +148,7 @@ if ($Target -eq "claude" -or $Target -eq "all") {
 
 if ($Target -eq "antigravity" -or $Target -eq "all") {
     $agSkills = "$env:USERPROFILE\.gemini\config\skills"
-    Clean-LegacyAgents -Dir $agSkills -IsFolder
+    Remove-LegacyAgents -Dir $agSkills -IsFolder
     $agSkillsCount = Install-SkillsFlattened -DestDir $agSkills
     $agAgentsCount = Install-Agents -DestDir $agSkills -AsSkill
     Write-Host "  [OK] Google Antigravity : $agSkillsCount skill e $agAgentsCount workflow agenti in $agSkills" -ForegroundColor Green
@@ -155,7 +156,7 @@ if ($Target -eq "antigravity" -or $Target -eq "all") {
 
 if ($Target -eq "cursor" -or $Target -eq "all") {
     $curSkills = "$env:USERPROFILE\.cursor\skills"
-    Clean-LegacyAgents -Dir $curSkills -IsFolder
+    Remove-LegacyAgents -Dir $curSkills -IsFolder
     $curSkillsCount = Install-SkillsFlattened -DestDir $curSkills
     $curAgentsCount = Install-Agents -DestDir $curSkills -AsSkill
     Write-Host "  [OK] Cursor             : $curSkillsCount skill e $curAgentsCount agenti in $curSkills" -ForegroundColor Green
