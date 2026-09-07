@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIM Skills Italia — VisionXt | Accesso Gratuito alla Suite AI</title>
+  <meta name="description" content="Registrati per accedere alla suite open-source di skill e agenti AI per workflow BIM conformi alla normativa italiana (D.Lgs. 36/2023, UNI 11337, ISO 19650).">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --vx-bg: #0A0C0E;
+      --vx-card: rgba(17, 21, 25, 0.94);
+      --vx-card-border: rgba(135, 175, 174, 0.28);
+      --vx-input-bg: #101316;
+      --vx-input-border: rgba(255, 255, 255, 0.12);
+      --vx-accent: #87AFAE;
+      --vx-accent-hover: #9fc6c5;
+      --vx-accent-glow: rgba(135, 175, 174, 0.25);
+      --vx-text: #FFFFFF;
+      --vx-muted: #9BA4A8;
+      --vx-font-head: "Space Grotesk", sans-serif;
+      --vx-font-body: "Raleway", sans-serif;
+      --vx-font-mono: "JetBrains Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--vx-bg);
+      color: var(--vx-text);
+      font-family: var(--vx-font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 50px 20px;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(135, 175, 174, 0.15) 0%, rgba(10, 12, 14, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .vx-layout {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .vx-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .vx-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(135, 175, 174, 0.12);
+      border: 1px solid var(--vx-card-border);
+      border-radius: 999px;
+      font-family: var(--vx-font-mono);
+      font-size: 12px;
+      color: var(--vx-accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+
+    .vx-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--vx-accent);
+      box-shadow: 0 0 8px var(--vx-accent);
+    }
+
+    h1.vx-title {
+      font-family: var(--vx-font-head);
+      font-size: clamp(30px, 4vw, 50px);
+      font-weight: 700;
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    h1.vx-title span.hl {
+      color: var(--vx-accent);
+      background: linear-gradient(135deg, #FFFFFF 20%, var(--vx-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.vx-subtitle {
+      font-size: clamp(16px, 1.4vw, 18px);
+      color: var(--vx-muted);
+      line-height: 1.6;
+      margin-bottom: 30px;
+      max-width: 560px;
+    }
+
+    .vx-features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+      width: 100%;
+    }
+
+    .vx-feat-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .vx-feat-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(135, 175, 174, 0.1);
+      border: 1px solid var(--vx-card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--vx-accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .vx-feat-text strong {
+      display: block;
+      color: #FFFFFF;
+      font-size: 15px;
+      font-family: var(--vx-font-head);
+      margin-bottom: 2px;
+    }
+
+    .vx-feat-text span {
+      font-size: 13.5px;
+      color: var(--vx-muted);
+      line-height: 1.4;
+    }
+
+    .vx-terminal {
+      width: 100%;
+      max-width: 520px;
+      background: #060809;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: var(--vx-font-mono);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--vx-accent);
+    }
+
+    .vx-terminal span.cmd {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .vx-terminal span.tag {
+      font-size: 10px;
+      background: rgba(135, 175, 174, 0.15);
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: var(--vx-accent);
+      flex-shrink: 0;
+    }
+
+    /* Form Card */
+    .vx-form-card {
+      background: var(--vx-card);
+      border: 1px solid var(--vx-card-border);
+      border-radius: 16px;
+      padding: 38px 34px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .vx-form-header {
+      margin-bottom: 24px;
+    }
+
+    .vx-form-header h2 {
+      font-family: var(--vx-font-head);
+      font-size: 23px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .vx-form-header p {
+      font-size: 14px;
+      color: var(--vx-muted);
+      line-height: 1.45;
+    }
+
+    .vx-group {
+      margin-bottom: 16px;
+    }
+
+    .vx-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-family: var(--vx-font-head);
+      font-size: 13px;
+      font-weight: 600;
+      color: #E2E8F0;
+      margin-bottom: 6px;
+    }
+
+    label span.req {
+      color: var(--vx-accent);
+    }
+
+    .vx-input, select.vx-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px;
+      background-color: var(--vx-input-bg);
+      border: 1px solid var(--vx-input-border);
+      border-radius: 8px;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-family: var(--vx-font-body);
+      outline: none;
+      transition: all 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    select.vx-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2387AFAE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 42px;
+    }
+
+    .vx-input:focus {
+      border-color: var(--vx-accent);
+      box-shadow: 0 0 0 3px var(--vx-accent-glow);
+      background-color: #14181C;
+    }
+
+    .vx-check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 20px 0 24px 0;
+    }
+
+    .vx-check-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--vx-accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .vx-check-row label {
+      font-size: 12.5px;
+      color: var(--vx-muted);
+      font-weight: 400;
+      line-height: 1.4;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .vx-btn-submit {
+      width: 100%;
+      height: 52px;
+      background: var(--vx-accent);
+      color: var(--vx-bg);
+      font-family: var(--vx-font-head);
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px var(--vx-accent-glow);
+    }
+
+    .vx-btn-submit:hover:not(:disabled) {
+      background: var(--vx-accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(135, 175, 174, 0.45);
+    }
+
+    .vx-btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .vx-reassurance {
+      text-align: center;
+      font-size: 11.5px;
+      color: #626A6F;
+      margin-top: 12px;
+    }
+
+    .vx-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(10, 12, 14, 0.3);
+      border-top-color: var(--vx-bg);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .vx-success {
+      display: none;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .vx-success-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px auto;
+      border-radius: 50%;
+      background: rgba(135, 175, 174, 0.12);
+      border: 1px solid var(--vx-card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--vx-accent);
+    }
+
+    .vx-success h3 {
+      font-family: var(--vx-font-head);
+      font-size: 22px;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+    }
+
+    .vx-success p {
+      font-size: 14px;
+      color: var(--vx-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .vx-success-box {
+      background: rgba(135, 175, 174, 0.08);
+      border: 1px solid var(--vx-card-border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--vx-font-mono);
+      font-size: 13px;
+      color: var(--vx-accent);
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+
+    .vx-btn-gh {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--vx-input-border);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: var(--vx-font-head);
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .vx-btn-gh:hover {
+      border-color: var(--vx-accent);
+      color: var(--vx-accent);
+    }
+
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-top: 48px;
+      font-size: 13px;
+      color: #5D656A;
+    }
+
+    .footer a {
+      color: var(--vx-muted);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--vx-accent);
+    }
+
+    @media (max-width: 980px) {
+      body {
+        padding: 30px 16px;
+      }
+      .vx-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .vx-hero {
+        align-items: center;
+        text-align: center;
+      }
+      p.vx-subtitle {
+        max-width: 100%;
+      }
+      .vx-features-list {
+        align-items: flex-start;
+        text-align: left;
+        max-width: 520px;
+      }
+      .vx-terminal {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      .vx-form-card {
+        padding: 26px 18px;
+        border-radius: 14px;
+      }
+      .vx-row-2 {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      h1.vx-title {
+        font-size: 28px;
+      }
+      p.vx-subtitle {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="vx-layout">
+    
+    <div class="vx-hero">
+      <div class="vx-pill">
+        <span class="dot"></span>
+        VISIONXT · OPENBIM & AI ACCELERATOR
+      </div>
+
+      <h1 class="vx-title">
+        Porta l'Intelligenza Artificiale nei tuoi <span class="hl">Workflow BIM Italiani</span>
+      </h1>
+
+      <p class="vx-subtitle">
+        La prima suite open-source che trasforma Capitolati Informativi, verifiche IDS/LOIN, gestione ACDat e automazioni Revit in comandi esecutivi per Claude Code, Google Antigravity e Cursor.
+      </p>
+
+      <div class="vx-features-list">
+        <div class="vx-feat-item">
+          <div class="vx-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="vx-feat-text">
+            <strong>Installazione One-Liner (1 Click)</strong>
+            <span>Esegui una singola riga di comando per installare tutto in pochi secondi.</span>
+          </div>
+        </div>
+
+        <div class="vx-feat-item">
+          <div class="vx-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <div class="vx-feat-text">
+            <strong>26 Skill Normative Rigorose</strong>
+            <span>Conformità a D.Lgs. 36/2023 (All. I.9), UNI 11337, ISO 19650 e buildingSMART IDS.</span>
+          </div>
+        </div>
+
+        <div class="vx-feat-item">
+          <div class="vx-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="vx-feat-text">
+            <strong>6 Agenti AI Specialistici</strong>
+            <span>BIM Gara, Quality Gate, CDE Manager, Delivery Team, Asset Manager e Revit Dev.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="vx-terminal">
+        <span class="cmd">irm https://.../install.ps1 | iex</span>
+        <span class="tag">POWERSHELL & BASH</span>
+      </div>
+    </div>
+
+    <div class="vx-form-card">
+      <div class="vx-form-header">
+        <h2>Ricevi Accesso Immediato</h2>
+        <p>Inserisci i tuoi dati per ricevere all'istante il link al repository GitHub e le istruzioni via email.</p>
+      </div>
+
+      <form id="leadForm" autocomplete="on">
+        <div class="vx-row-2">
+          <div>
+            <label for="name">Nome e Cognome <span class="req">*</span></label>
+            <input type="text" id="name" name="name" class="vx-input" placeholder="Mario Rossi" required>
+          </div>
+          <div>
+            <label for="email">Email aziendale <span class="req">*</span></label>
+            <input type="email" id="email" name="email" class="vx-input" placeholder="mario.rossi@studio.it" required>
+          </div>
+        </div>
+
+        <div class="vx-group">
+          <label for="role">Ruolo nel processo BIM <span class="req">*</span></label>
+          <select id="role" name="role" class="vx-input" required>
+            <option value="" disabled selected>Seleziona la tua figura professionale...</option>
+            <option value="BIM Manager">BIM Manager</option>
+            <option value="BIM Coordinator">BIM Coordinator</option>
+            <option value="BIM Specialist">BIM Specialist</option>
+            <option value="CDE Manager">CDE Manager / Gestore ACDat</option>
+            <option value="Progettista / Architetto / Ingegnere">Progettista / Architetto / Ingegnere</option>
+            <option value="RUP / Stazione Appaltante">RUP / Tecnico Stazione Appaltante</option>
+            <option value="Computational Designer / Dev">Computational Designer / Dev AEC</option>
+            <option value="Altro">Altro ruolo del settore delle costruzioni</option>
+          </select>
+        </div>
+
+        <div class="vx-row-2">
+          <div>
+            <label for="software">Software primario <span class="req">*</span></label>
+            <select id="software" name="software" class="vx-input" required>
+              <option value="" disabled selected>Software principale...</option>
+              <option value="Autodesk Revit">Autodesk Revit</option>
+              <option value="Graphisoft Archicad">Graphisoft Archicad</option>
+              <option value="Rhino / Grasshopper">Rhino / Grasshopper</option>
+              <option value="OpenBIM / IFC puro">OpenBIM / IFC puro</option>
+              <option value="Altro">Altro software</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="ai_tool">Strumento AI <span class="req">*</span></label>
+            <select id="ai_tool" name="ai_tool" class="vx-input" required>
+              <option value="" disabled selected>Strumento AI...</option>
+              <option value="Claude Code">Claude Code (Anthropic)</option>
+              <option value="Google Antigravity">Google Antigravity (Gemini)</option>
+              <option value="Cursor">Cursor (Anysphere)</option>
+              <option value="Tutti gli ambienti">Tutti gli ambienti</option>
+              <option value="Valutazione / Nessuno">Nessuno ancora / In valutazione</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="vx-check-row">
+          <input type="checkbox" id="privacy" required>
+          <label for="privacy">
+            Accetto di ricevere via email l'accesso al repository e aggiornamenti sulle skill BIM da parte di VisionXt. Nessun dato ceduto a terzi.
+          </label>
+        </div>
+
+        <button type="submit" id="submitBtn" class="vx-btn-submit">
+          <span id="btnText">Invia Istruzioni alla mia Email →</span>
+          <div class="vx-spinner" id="spinner"></div>
+        </button>
+
+        <div class="vx-reassurance">
+          Mittente: <strong>amministrazione@visionxt.tech</strong> · Nessun costo o abbonamento
+        </div>
+      </form>
+
+      <div id="successCard" class="vx-success">
+        <div class="vx-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h3>Email Inviata con Successo! 🚀</h3>
+        <p>
+          Abbiamo spedito il link al repository GitHub e il comando di installazione all'indirizzo <strong id="sentEmailPlaceholder" style="color: #FFFFFF;"></strong>.
+        </p>
+        <div class="vx-success-box">
+          Mittente: <strong>amministrazione@visionxt.tech</strong><br>
+          <span style="color: var(--vx-muted); font-size: 12px;">Controlla anche la cartella Spam o Promozioni se non la trovi entro 1 minuto.</span>
+        </div>
+        <div>
+          <a href="https://github.com/VisionXt-tech/bim-skills" target="_blank" rel="noopener" class="vx-btn-gh">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+            Apri Repository su GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    Sviluppato con cura da <a href="https://visionxt.tech" target="_blank" rel="noopener"><strong>VisionXt</strong></a> — OpenBIM, Intelligenza Artificiale e Computational Design.
+  </footer>
+
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SOSTITUISCI_CON_IL_TUO_ID/exec";
+
+    const form = document.getElementById("leadForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+    const successCard = document.getElementById("successCard");
+    const sentEmailPlaceholder = document.getElementById("sentEmailPlaceholder");
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      btnText.textContent = "Spedizione in corso...";
+      spinner.style.display = "inline-block";
+
+      const formData = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        role: document.getElementById("role").value,
+        software: document.getElementById("software").value,
+        ai_tool: document.getElementById("ai_tool").value,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(formData)
+        });
+      } catch (err) {
+        console.warn("Invio fallback Apps Script:", err);
+      }
+
+      sentEmailPlaceholder.textContent = formData.email;
+      form.style.display = "none";
+      successCard.style.display = "block";
+      submitBtn.disabled = false;
+      btnText.textContent = "Invia Istruzioni alla mia Email →";
+      spinner.style.display = "none";
+    });
+  </script>
+</body>
+</html>
